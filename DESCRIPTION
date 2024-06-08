@@ -1,7 +1,7 @@
 Package: jstager
 Type: Package
 Title: Access J-STAGE WebAPI to Retrieve Information Published on J-STAGE
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Takeshi",
            family = "Nishimura",

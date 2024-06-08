@@ -1,3 +1,3 @@
-# jstager (development version)
+# jstager 0.0.1
 
 * Initial CRAN submission.
