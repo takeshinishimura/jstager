@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/takeshinishimura/jstager/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/takeshinishimura/jstager/actions/workflows/check-standard.yaml)
+[![R-CMD-check](https://github.com/takeshinishimura/jstager/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/takeshinishimura/jstager/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/jstager)](https://CRAN.R-project.org/package=jstager)
 <!-- badges: end -->
