@@ -1,3 +1,3 @@
 # jstager (development version)
 
-* Initial release on GitHub.
+* Initial CRAN submission.
