@@ -4,6 +4,10 @@
 # jstager
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/takeshinishimura/jstager/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/takeshinishimura/jstager/actions/workflows/check-standard.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/jstager)](https://CRAN.R-project.org/package=jstager)
 <!-- badges: end -->
 
 J-STAGE
