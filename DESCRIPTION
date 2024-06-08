@@ -1,0 +1,28 @@
+Package: jstager
+Type: Package
+Title: Access J-STAGE WebAPI to Retrieve Information Published on J-STAGE
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Takeshi",
+           family = "Nishimura",
+           email = "takenishi@gmail.com",
+           role = c("aut", "cph", "cre"),
+           comment = c(ORCID = "0000-0003-1761-4300"))
+Description: A package to access J-STAGE WebAPI and retrieve information 
+    published on J-STAGE.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 2.10)
+Imports:
+    httr,
+    xml2,
+    tibble,
+    dplyr,
+    openxlsx
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

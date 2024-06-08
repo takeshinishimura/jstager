@@ -1,0 +1,76 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# jstager
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+J-STAGE WebAPIを利用して，J-STAGEに公開されている情報を取得するためのRパッケージです。
+このパッケージを使用すると，巻号一覧や論文の検索結果を取得し，Excel形式で保存することができます。
+
+
+## 利用上の注意
+
+このパッケージはJ-STAGE WebAPIの利用規約等をご確認の上ご利用ください。
+
+- [J-STAGE WebAPI 利用規約](https://www.jstage.jst.go.jp/static/pages/WebAPI/-char/ja){target="_blank"}
+- [J-STAGE WebAPIについて](https://www.jstage.jst.go.jp/static/pages/JstageServices/TAB3/-char/ja){target="_blank"}
+- [J-STAGE WebAPI ご利用マニュアル](https://www.jstage.jst.go.jp/static/files/ja/manual_api.pdf){target="_blank"}
+
+
+## インストール方法
+
+現在，jstagerパッケージはGitHubでのみ提供されています。
+以下のコマンドを使用してインストールできます。
+
+``` r
+# install.packages("devtools")
+devtools::install_github("takeshinishimura/jstager")
+```
+
+
+## 使用例
+
+### 巻号一覧の取得
+
+```{r example_volume}
+library(jstager)
+
+d1 <- get_jstage_volumes(material = "日本応用動物昆虫学会誌", pubyearfrom = 2020)
+d1
+```
+
+### 論文検索結果の取得
+
+```{r example_article}
+d2 <- get_jstage_articles(author = "山中 伸弥")
+d2
+```
+
+一度に取得できるデータは最大1,000件です。
+1,000件を超えるデータを取得する場合は，しばらく時間をおいてから，次のように引数 `start` を指定して続きを取得してください。
+
+```{r example_article2, eval = FALSE}
+d3 <- get_jstage_articles(article = "iPS", start = 1001)
+```
+
+### 取得したデータをExcelに保存
+
+```{r example_write, eval = FALSE}
+write_jstage_to_excel(d2, "results.xlsx")
+```
+
+Powered by [J-STAGE](https://www.jstage.jst.go.jp/browse/-char/ja){target="_blank"}
