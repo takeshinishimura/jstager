@@ -28,8 +28,13 @@ WebAPIを利用して，J-STAGEに公開されている情報を取得するた�
 
 ## インストール方法
 
-現在，jstagerパッケージはGitHubでのみ提供されています。
-以下のコマンドを使用してインストールできます。
+jstagerパッケージはCRANからインストールできます。
+
+``` r
+install.packages("fude")
+```
+
+開発版はGitHubからインストールできます。
 
 ``` r
 # install.packages("devtools")
@@ -133,6 +138,12 @@ d2
 d3 <- get_jstage_articles(article = "iPS", start = 1001)
 ```
 
+### 取得したデータをExcelに保存
+
+``` r
+write_jstage_to_excel(d2, "results.xlsx")
+```
+
 ### 論文のメタデータの取得
 
 ``` r
@@ -141,12 +152,6 @@ d4$keywords
 #> [1] "iPS細胞"                    "創薬"                      
 #> [3] "ドラッグ・リポジショニング" "個別化医療"                
 #> [5] "先制医療"
-```
-
-### 取得したデータをExcelに保存
-
-``` r
-write_jstage_to_excel(d2, "results.xlsx")
 ```
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"

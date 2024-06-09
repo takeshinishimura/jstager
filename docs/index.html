@@ -84,8 +84,11 @@
 <div class="section level2">
 <h2 id="インストール方法">インストール方法<a class="anchor" aria-label="anchor" href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95"></a>
 </h2>
-<p>現在，jstagerパッケージはGitHubでのみ提供されています。 以下のコマンドを使用してインストールできます。</p>
+<p>jstagerパッケージはCRANからインストールできます。</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"fude"</span><span class="op">)</span></span></code></pre></div>
+<p>開発版はGitHubからインストールできます。</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"takeshinishimura/jstager"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -95,7 +98,7 @@
 <div class="section level3">
 <h3 id="巻号一覧の取得">巻号一覧の取得<a class="anchor" aria-label="anchor" href="#%E5%B7%BB%E5%8F%B7%E4%B8%80%E8%A6%A7%E3%81%AE%E5%8F%96%E5%BE%97"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/takeshinishimura/jstager" class="external-link">jstager</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_jstage_volumes.html">get_jstage_volumes</a></span><span class="op">(</span>material <span class="op">=</span> <span class="st">"日本応用動物昆虫学会誌"</span>, pubyearfrom <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span></span>
@@ -140,7 +143,7 @@
 <div class="section level3">
 <h3 id="論文検索結果の取得">論文検索結果の取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E6%A4%9C%E7%B4%A2%E7%B5%90%E6%9E%9C%E3%81%AE%E5%8F%96%E5%BE%97"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_jstage_articles.html">get_jstage_articles</a></span><span class="op">(</span>author <span class="op">=</span> <span class="st">"山中 伸弥"</span><span class="op">)</span></span>
 <span><span class="va">d2</span></span>
 <span><span class="co">#&gt; $metadata</span></span>
@@ -179,24 +182,24 @@
 <span><span class="co">#&gt; #   システムコード &lt;chr&gt;, システム名 &lt;chr&gt;, サブフィード名 &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   サブフィードURL &lt;chr&gt;, サブフィードID &lt;chr&gt;, 最新公開日 &lt;chr&gt;</span></span></code></pre></div>
 <p>一度に取得できるデータは最大1,000件です。 1,000件を超えるデータを取得する場合は，しばらく時間をおいてから，次のように引数 <code>start</code> を指定して続きを取得してください。</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_jstage_articles.html">get_jstage_articles</a></span><span class="op">(</span>article <span class="op">=</span> <span class="st">"iPS"</span>, start <span class="op">=</span> <span class="fl">1001</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="論文のメタデータの取得">論文のメタデータの取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E3%81%AE%E3%83%A1%E3%82%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%8F%96%E5%BE%97"></a>
-</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://doi.org/"</span>, <span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">d4</span><span class="op">$</span><span class="va">keywords</span></span>
-<span><span class="co">#&gt; [1] "iPS細胞"                    "創薬"                      </span></span>
-<span><span class="co">#&gt; [3] "ドラッグ・リポジショニング" "個別化医療"                </span></span>
-<span><span class="co">#&gt; [5] "先制医療"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_jstage_articles.html">get_jstage_articles</a></span><span class="op">(</span>article <span class="op">=</span> <span class="st">"iPS"</span>, start <span class="op">=</span> <span class="fl">1001</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="取得したデータをexcelに保存">取得したデータをExcelに保存<a class="anchor" aria-label="anchor" href="#%E5%8F%96%E5%BE%97%E3%81%97%E3%81%9F%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92excel%E3%81%AB%E4%BF%9D%E5%AD%98"></a>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/write_jstage_to_excel.html">write_jstage_to_excel</a></span><span class="op">(</span><span class="va">d2</span>, <span class="st">"results.xlsx"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="論文のメタデータの取得">論文のメタデータの取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E3%81%AE%E3%83%A1%E3%82%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%8F%96%E5%BE%97"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://doi.org/"</span>, <span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">d4</span><span class="op">$</span><span class="va">keywords</span></span>
+<span><span class="co">#&gt; [1] "iPS細胞"                    "創薬"                      </span></span>
+<span><span class="co">#&gt; [3] "ドラッグ・リポジショニング" "個別化医療"                </span></span>
+<span><span class="co">#&gt; [5] "先制医療"</span></span></code></pre></div>
 <p>Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja" target="_blank" class="external-link">J-STAGE</a></p>
 </div>
 </div>
