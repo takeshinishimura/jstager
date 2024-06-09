@@ -1,7 +1,7 @@
 #' Write J-Stage Data to Excel File
 #'
 #' @description
-#' This function writes the J-Stage search results to an Excel file.
+#' Writes the J-Stage search results to an Excel file.
 #'
 #' @param data
 #'   A list containing the metadata and entry data frames obtained from J-Stage.

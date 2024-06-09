@@ -21,7 +21,7 @@ get_jstage_articles(
   no = NA,
   start = NA,
   count = NA,
-  language = "ja"
+  lang = "ja"
 )
 }
 \arguments{
@@ -67,7 +67,7 @@ issue, and page order (default is 1).}
 \item{count}{An integer specifying the number of search results to retrieve (up to
 1,000).}
 
-\item{language}{A character string specifying the language for column names: "ja" for
+\item{lang}{A character string specifying the language for column names: "ja" for
 Japanese (default is "ja").}
 }
 \value{
@@ -75,7 +75,6 @@ A list containing metadata and entry data frames with the search
 results.
 }
 \description{
-This function retrieves a list of articles published on J-STAGE,
-including detailed information such as publication date and bibliographic
-metadata.
+Retrieves a list of articles published on J-STAGE, including detailed
+information such as publication date and bibliographic metadata.
 }

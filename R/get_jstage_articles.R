@@ -1,9 +1,8 @@
 #' Get J-Stage Articles List
 #'
 #' @description
-#' This function retrieves a list of articles published on J-STAGE,
-#' including detailed information such as publication date and bibliographic
-#' metadata.
+#' Retrieves a list of articles published on J-STAGE, including detailed
+#' information such as publication date and bibliographic metadata.
 #'
 #' @param pubyearfrom
 #'   An integer specifying the starting publication year (in YYYY format).
@@ -47,7 +46,7 @@
 #' @param count
 #'   An integer specifying the number of search results to retrieve (up to
 #'   1,000).
-#' @param language
+#' @param lang
 #'   A character string specifying the language for column names: "ja" for
 #'   Japanese (default is "ja").
 #' @return A list containing metadata and entry data frames with the search
@@ -69,7 +68,7 @@ get_jstage_articles <- function(pubyearfrom = NA,
                                 no = NA,
                                 start = NA,
                                 count = NA,
-                                language = "ja") {
+                                lang = "ja") {
 
   x <- get_jstage(pubyearfrom = pubyearfrom,
                   pubyearto = pubyearto,
@@ -103,7 +102,7 @@ get_jstage_articles <- function(pubyearfrom = NA,
             " \u4ef6\u5206\u306e\u691c\u7d22\u7d50\u679c\u3092\u53d6\u5f97\u3057\u307e\u3057\u305f\u3002")
   }
 
-  if (language == "ja") {
+  if (lang == "ja") {
     names(dm) <- c("\u51e6\u7406\u7d50\u679c\u30b9\u30c6\u30fc\u30bf\u30b9",
                    "\u51e6\u7406\u7d50\u679c\u30e1\u30c3\u30bb\u30fc\u30b8",
                    "\u30d5\u30a3\u30fc\u30c9\u540d",

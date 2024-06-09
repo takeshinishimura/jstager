@@ -11,7 +11,7 @@ get_jstage_volumes(
   issn = "",
   cdjournal = "",
   volorder = NA,
-  language = "ja"
+  lang = "ja"
 )
 }
 \arguments{
@@ -29,7 +29,7 @@ format).}
 \item{volorder}{An integer specifying the order of volumes: 1 for ascending, 2 for
 descending (default is 1).}
 
-\item{language}{A character string specifying the language for column names: "ja" for
+\item{lang}{A character string specifying the language for column names: "ja" for
 Japanese (default is "ja").}
 }
 \value{
@@ -37,6 +37,5 @@ A list containing metadata and entry data frames with the search
 results.
 }
 \description{
-This function retrieves a list of volumes and issues published on J-STAGE,
-including detailed information such as publication year.
+Retrieves a list of volumes and issues published on J-STAGE.
 }

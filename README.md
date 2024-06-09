@@ -133,6 +133,16 @@ d2
 d3 <- get_jstage_articles(article = "iPS", start = 1001)
 ```
 
+### 論文のメタデータの取得
+
+``` r
+d4 <- jstage_metadata(paste0("https://doi.org/", d2$entry$DOI[8]))
+d4$keywords
+#> [1] "iPS細胞"                    "創薬"                      
+#> [3] "ドラッグ・リポジショニング" "個別化医療"                
+#> [5] "先制医療"
+```
+
 ### 取得したデータをExcelに保存
 
 ``` r

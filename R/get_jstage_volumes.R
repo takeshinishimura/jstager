@@ -1,8 +1,7 @@
 #' Get J-Stage Volumes and Issues List
 #'
 #' @description
-#' This function retrieves a list of volumes and issues published on J-STAGE,
-#' including detailed information such as publication year.
+#' Retrieves a list of volumes and issues published on J-STAGE.
 #'
 #' @param pubyearfrom
 #'   An integer specifying the starting publication year (in YYYY format).
@@ -18,7 +17,7 @@
 #' @param volorder
 #'   An integer specifying the order of volumes: 1 for ascending, 2 for
 #'   descending (default is 1).
-#' @param language
+#' @param lang
 #'   A character string specifying the language for column names: "ja" for
 #'   Japanese (default is "ja").
 #' @return A list containing metadata and entry data frames with the search
@@ -30,7 +29,7 @@ get_jstage_volumes <- function(pubyearfrom = NA,
                                issn = "",
                                cdjournal = "",
                                volorder = NA,
-                               language = "ja") {
+                               lang = "ja") {
 
   x <- get_jstage(pubyearfrom = pubyearfrom,
                   pubyearto = pubyearto,
@@ -47,7 +46,7 @@ get_jstage_volumes <- function(pubyearfrom = NA,
     warning("\u691c\u7d22\u7d50\u679c\u306f0\u4ef6\u3067\u3059\u3002")
   }
 
-  if (language == "ja") {
+  if (lang == "ja") {
     names(dm) <- c("\u51e6\u7406\u7d50\u679c\u30b9\u30c6\u30fc\u30bf\u30b9",
                    "\u51e6\u7406\u7d50\u679c\u30e1\u30c3\u30bb\u30fc\u30b8",
                    "\u30d5\u30a3\u30fc\u30c9\u540d",

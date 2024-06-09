@@ -69,6 +69,13 @@ d2
 d3 <- get_jstage_articles(article = "iPS", start = 1001)
 ```
 
+### 論文のメタデータの取得
+
+```{r example_article_metadata}
+d4 <- jstage_metadata(paste0("https://doi.org/", d2$entry$DOI[8]))
+d4$keywords
+```
+
 ### 取得したデータをExcelに保存
 
 ```{r example_write, eval = FALSE}

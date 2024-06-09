@@ -15,5 +15,5 @@ write_jstage_to_excel(data, file_name)
 None. The function writes data to an Excel file.
 }
 \description{
-This function writes the J-Stage search results to an Excel file.
+Writes the J-Stage search results to an Excel file.
 }
