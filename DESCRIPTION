@@ -1,15 +1,16 @@
 Package: jstager
 Type: Package
-Title: Access J-STAGE WebAPI to Retrieve Information Published on J-STAGE
-Version: 0.0.1
+Title: Retrieve Information Published on J-STAGE
+Version: 0.0.2
 Authors@R: 
     person(given = "Takeshi",
            family = "Nishimura",
            email = "takenishi@gmail.com",
            role = c("aut", "cph", "cre"),
            comment = c(ORCID = "0000-0003-1761-4300"))
-Description: A package to access the J-STAGE WebAPI and retrieve information 
-    published on J-STAGE <https://www.jstage.jst.go.jp/browse/-char/ja>.
+Description: Provides tools to access the J-STAGE WebAPI and retrieve 
+    information published on J-STAGE 
+    <https://www.jstage.jst.go.jp/browse/-char/ja>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -18,6 +19,7 @@ Depends:
 Imports:
     httr,
     xml2,
+    rvest,
     tibble,
     dplyr,
     openxlsx
