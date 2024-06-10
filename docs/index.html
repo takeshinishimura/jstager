@@ -195,11 +195,12 @@
 <h3 id="論文のメタデータの取得">論文のメタデータの取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E3%81%AE%E3%83%A1%E3%82%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%8F%96%E5%BE%97"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://doi.org/"</span>, <span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">d4</span><span class="op">$</span><span class="va">keywords</span></span>
 <span><span class="co">#&gt; [1] "iPS細胞"                    "創薬"                      </span></span>
 <span><span class="co">#&gt; [3] "ドラッグ・リポジショニング" "個別化医療"                </span></span>
 <span><span class="co">#&gt; [5] "先制医療"</span></span></code></pre></div>
+<p><a href="https://www.zotero.org/" target="_blank" class="external-link">Zotero</a> ユーザーは，J-STAGE の情報を <a href="https://www.zotero.org/download/connectors" target="_blank" class="external-link">Zotero Connector</a> 経由で登録する際に，著者名の姓と名が逆になるという問題が発生します。 この問題は BibTeX を経由することで回避できます。</p>
 <p>Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja" target="_blank" class="external-link">J-STAGE</a></p>
 </div>
 </div>

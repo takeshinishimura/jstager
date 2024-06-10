@@ -21,6 +21,7 @@ get_jstage_articles(
   no = NA,
   start = NA,
   count = NA,
+  sep = "\\n",
   lang = "ja"
 )
 }
@@ -66,6 +67,8 @@ issue, and page order (default is 1).}
 
 \item{count}{An integer specifying the number of search results to retrieve (up to
 1,000).}
+
+\item{sep}{A character string to separate multiple authors' names. Default is "\\n".}
 
 \item{lang}{A character string specifying the language for column names: "ja" for
 Japanese (default is "ja").}

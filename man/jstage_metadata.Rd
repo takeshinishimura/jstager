@@ -4,10 +4,12 @@
 \alias{jstage_metadata}
 \title{Scrape J-STAGE Article Metadata}
 \usage{
-jstage_metadata(url, bibtex_file_name = "")
+jstage_metadata(url, collapse = NULL, bibtex_file_name = "")
 }
 \arguments{
-\item{url}{The URL of the J-STAGE article.}
+\item{url}{The URL or DOI of the J-STAGE article.}
+
+\item{collapse}{A character string to separate multiple authors' names and keywords.}
 
 \item{bibtex_file_name}{The file name to save the BibTeX entry. If empty, no file is saved.}
 }

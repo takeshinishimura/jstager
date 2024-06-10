@@ -43,7 +43,7 @@ get_jstage_volumes <- function(pubyearfrom = NA,
   de <- xml_entry2(x)
 
   if (dm$status == "ERR_001") {
-    warning("\u691c\u7d22\u7d50\u679c\u306f0\u4ef6\u3067\u3059\u3002")
+    warning("\u691c\u7d22\u7d50\u679c\u306f 0 \u4ef6\u3067\u3059\u3002")
   }
 
   if (lang == "ja") {

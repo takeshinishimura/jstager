@@ -4,16 +4,21 @@
 #' Scrapes all available metadata from a J-STAGE article.
 #'
 #' @param url
-#'   The URL of the J-STAGE article.
+#'   The URL or DOI of the J-STAGE article.
+#' @param collapse
+#'   A character string to separate multiple authors' names and keywords.
 #' @param bibtex_file_name
 #'   The file name to save the BibTeX entry. If empty, no file is saved.
 #' @return A list containing the article metadata.
 #' @export
-jstage_metadata <- function(url, bibtex_file_name = "") {
+jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
 
   tryCatch({
+    if (!grepl("^https?://", url)) {
+      url <- paste0("https://doi.org/", url)
+    }
     response <- httr::GET(url)
-    response_url <- response$url
+    response_url <- sub("/$", "", response$url)
     page <- rvest::read_html(response)
 
     journal_title <- page |>
@@ -31,14 +36,22 @@ jstage_metadata <- function(url, bibtex_file_name = "") {
     author_list <- lapply(authors, function(author) {
       names <- strsplit(author, " ")[[1]]
       if (grepl("-char/en", response_url)) {
-        list(lastName = names[length(names)], firstName = names[1])
+        list(lastName = names[length(names)], firstName = paste(names[-length(names)], collapse = " "))
       } else {
-        list(lastName = names[1], firstName = names[length(names)])
+        list(lastName = names[1], firstName = paste(names[-1], collapse = " "))
       }
     })
+    if (!is.null(collapse)) {
+      author_list <- paste(sapply(author_list, function(i) {
+        paste(i$lastName, i$firstName, sep = ", ")
+      }), collapse = collapse)
+    }
     authors_institutions <- page |>
       rvest::html_nodes("meta[name='authors_institutions']") |>
       rvest::html_attr("content")
+    if (!is.null(collapse)) {
+      authors_institutions <- paste0(authors_institutions, collapse = collapse)
+    }
     title <- page |>
       rvest::html_node("meta[name='title']") |>
       rvest::html_attr("content")
@@ -84,12 +97,21 @@ jstage_metadata <- function(url, bibtex_file_name = "") {
     keywords <- page |>
       rvest::html_nodes("meta[name='keywords']") |>
       rvest::html_attr("content")
+    if (length(keywords) == 0) {
+      keywords <- NA
+    }
+    if (!is.null(collapse)) {
+      keywords <- paste0(keywords, collapse = collapse)
+    }
     abstract <- page |>
       rvest::html_node("meta[name='abstract']") |>
       rvest::html_attr("content")
     references <- page |>
       rvest::html_nodes("meta[name='references']") |>
       rvest::html_attr("content")
+    if (length(references) == 0) {
+      references <- NA
+    }
     access_control <- page |>
       rvest::html_node("meta[name='access_control']") |>
       rvest::html_attr("content")
@@ -126,23 +148,36 @@ jstage_metadata <- function(url, bibtex_file_name = "") {
     )
 
     if (bibtex_file_name != "") {
+      publication_year <- strsplit(x$publication_date, "/")[[1]][1]
+      publication_month <- strsplit(x$publication_date, "/")[[1]][2]
+      pages <- paste0(x$firstpage, if (!is.na(x$firstpage) && !is.na(x$lastpage)) "-" else "", x$lastpage)
+
       bibtex_entry <- paste0(
         "@article{",
-        gsub(" ", "", tolower(x$authors[[1]]$lastName)), strsplit(x$publication_date, "/")[[1]][1], ",\n",
-        "  title   = {", x$title, "},\n",
-        "  author  = {", paste(sapply(x$authors, function(author) {
-          paste(author$lastName, author$firstName, sep = ", ")
-        }), collapse = " and "), "},\n",
-        "  journal = {", x$journal_title, "},\n",
-        "  volume  = {", x$volume, "},\n",
-        "  number  = {", x$issue, "},\n",
-        "  pages   = {", x$firstpage, "-", x$lastpage, "},\n",
-        "  year    = {", strsplit(x$publication_date, "/")[[1]][1], "},\n",
-        "  month   = {", strsplit(x$publication_date, "/")[[1]][2], "},\n",
-        "  publisher = {", x$publisher, "},\n",
-        "  doi     = {", x$doi, "},\n",
+        tolower(if (!is.null(collapse)) {
+          sub(",.*", "", x$authors)
+        } else {
+          x$authors[[1]]$lastName
+        }), publication_year, ",\n",
+        "  title   = {", ifelse(!is.na(x$title), x$title, ""), "},\n",
+        "  author  = {",
+        if (!is.null(collapse)) {
+          ifelse(length(x$authors) != 0, gsub(collapse, " and ", x$authors), "")
+        } else {
+          paste(sapply(x$authors, function(i) {
+            paste(i$lastName, i$firstName, sep = ", ")
+          }), collapse = " and ")
+        }, "},\n",
+        "  journal = {", ifelse(!is.na(x$journal_title), x$journal_title, ""), "},\n",
+        "  volume  = {", ifelse(!is.na(x$volume), x$volume, ""), "},\n",
+        "  number  = {", ifelse(!is.na(x$issue), x$issue, ""), "},\n",
+        "  pages   = {", ifelse(!is.na(x$firstpage), pages, ""), "},\n",
+        "  year    = {", ifelse(!is.na(publication_year), publication_year, ""), "},\n",
+        "  month   = {", ifelse(!is.na(publication_month), publication_month, ""), "},\n",
+        "  publisher = {", ifelse(!is.na(x$publisher), x$publisher, ""), "},\n",
+        "  doi     = {", ifelse(!is.na(x$doi), x$doi, ""), "},\n",
         "  url     = {", response_url, "},\n",
-        "  abstract = {", x$abstract, "}\n",
+        "  abstract = {", ifelse(!is.na(x$abstract), x$abstract, ""), "}\n",
         "}"
       )
       cat(bibtex_entry, file = bibtex_file_name)

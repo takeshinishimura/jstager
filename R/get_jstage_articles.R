@@ -46,6 +46,8 @@
 #' @param count
 #'   An integer specifying the number of search results to retrieve (up to
 #'   1,000).
+#' @param sep
+#'   A character string to separate multiple authors' names. Default is "\\n".
 #' @param lang
 #'   A character string specifying the language for column names: "ja" for
 #'   Japanese (default is "ja").
@@ -68,6 +70,7 @@ get_jstage_articles <- function(pubyearfrom = NA,
                                 no = NA,
                                 start = NA,
                                 count = NA,
+                                sep = "\n",
                                 lang = "ja") {
 
   x <- get_jstage(pubyearfrom = pubyearfrom,
@@ -89,10 +92,10 @@ get_jstage_articles <- function(pubyearfrom = NA,
                   service = 3)
 
   dm <- xml_meta(x)
-  de <- xml_entry3(x)
+  de <- xml_entry3(x, sep = sep)
 
   if (dm$status == "ERR_001") {
-    warning("\u691c\u7d22\u7d50\u679c\u306f0\u4ef6\u3067\u3059\u3002")
+    warning("\u691c\u7d22\u7d50\u679c\u306f 0 \u4ef6\u3067\u3059\u3002")
   }
 
   if (dm$status == "WARN_002") {
@@ -140,7 +143,7 @@ get_jstage_articles <- function(pubyearfrom = NA,
 
 }
 
-xml_entry3 <- function(x) {
+xml_entry3 <- function(x, sep) {
 
   entries <- xml2::xml_find_all(x = x, xpath = "//d1:entry")
   data_list <- list()
@@ -153,10 +156,10 @@ xml_entry3 <- function(x) {
     article_link_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:article_link/d1:ja"))
 
     author_en_nodes <- xml2::xml_find_all(x = entry, xpath = "d1:author/d1:en/d1:name")
-    author_en <- paste(xml2::xml_text(author_en_nodes), collapse = "\n")
+    author_en <- paste(xml2::xml_text(author_en_nodes), collapse = sep)
 
     author_ja_nodes <- xml2::xml_find_all(x = entry, xpath = "d1:author/d1:ja/d1:name")
-    author_ja <- paste(xml2::xml_text(author_ja_nodes), collapse = "\n")
+    author_ja <- paste(xml2::xml_text(author_ja_nodes), collapse = sep)
 
     cdjournal <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:cdjournal"))
     material_title_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:material_title/d1:en"))

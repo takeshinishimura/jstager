@@ -53,13 +53,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jstage_metadata</span><span class="op">(</span><span class="va">url</span>, bibtex_file_name <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jstage_metadata</span><span class="op">(</span><span class="va">url</span>, collapse <span class="op">=</span> <span class="cn">NULL</span>, bibtex_file_name <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>url</dt>
-<dd><p>The URL of the J-STAGE article.</p></dd>
+<dd><p>The URL or DOI of the J-STAGE article.</p></dd>
+
+
+<dt>collapse</dt>
+<dd><p>A character string to separate multiple authors' names and keywords.</p></dd>
 
 
 <dt>bibtex_file_name</dt>
