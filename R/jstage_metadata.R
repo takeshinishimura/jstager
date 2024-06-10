@@ -55,6 +55,12 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     title <- page |>
       rvest::html_node("meta[name='title']") |>
       rvest::html_attr("content")
+    subtitle <- page |>
+      rvest::html_node("meta[name='subtitle']") |>
+      rvest::html_attr("content")
+    if (!is.na(subtitle)) {
+      title <- paste0(title, subtitle)
+    }
     publication_date <- page |>
       rvest::html_node("meta[name='publication_date']") |>
       rvest::html_attr("content")
