@@ -82,9 +82,8 @@ write_jstage_to_excel(d2, "results.xlsx")
 
 ### 論文のメタデータの取得
 
-```{r example_article_metadata}
+```{r example_article_metadata, eval = FALSE}
 d4 <- jstage_metadata(d2$entry$DOI[8], bibtex = "../example.bib")
-d4$keywords
 ```
 
 [Zotero](https://www.zotero.org/){target="_blank"} ユーザーは，J-STAGE の情報を [Zotero Connector](https://www.zotero.org/download/connectors){target="_blank"} 経由で登録する際に，著者名の姓と名が逆になるという問題が発生します。

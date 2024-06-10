@@ -148,10 +148,6 @@ write_jstage_to_excel(d2, "results.xlsx")
 
 ``` r
 d4 <- jstage_metadata(d2$entry$DOI[8], bibtex = "../example.bib")
-d4$keywords
-#> [1] "iPS細胞"                    "創薬"                      
-#> [3] "ドラッグ・リポジショニング" "個別化医療"                
-#> [5] "先制医療"
 ```
 
 <a href="https://www.zotero.org/" target="_blank">Zotero</a>
