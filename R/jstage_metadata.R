@@ -41,7 +41,10 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
         list(lastName = names[1], firstName = paste(names[-1], collapse = " "))
       }
     })
-    if (!is.null(collapse)) {
+    if (length(author_list) == 0) {
+      author_list <- NA
+    }
+    if (!is.na(author_list) & !is.null(collapse)) {
       author_list <- paste(sapply(author_list, function(i) {
         paste(i$lastName, i$firstName, sep = ", ")
       }), collapse = collapse)
@@ -49,7 +52,10 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     authors_institutions <- page |>
       rvest::html_nodes("meta[name='authors_institutions']") |>
       rvest::html_attr("content")
-    if (!is.null(collapse)) {
+    if (length(authors_institutions) == 0) {
+      authors_institutions <- NA
+    }
+    if (!is.na(authors_institutions) & !is.null(collapse)) {
       authors_institutions <- paste0(authors_institutions, collapse = collapse)
     }
     title <- page |>
@@ -106,7 +112,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     if (length(keywords) == 0) {
       keywords <- NA
     }
-    if (!is.null(collapse)) {
+    if (!is.na(keywords) & !is.null(collapse)) {
       keywords <- paste0(keywords, collapse = collapse)
     }
     abstract <- page |>
@@ -117,6 +123,9 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
       rvest::html_attr("content")
     if (length(references) == 0) {
       references <- NA
+    }
+    if (!is.na(references) & !is.null(collapse)) {
+      references <- paste0(references, collapse = collapse)
     }
     access_control <- page |>
       rvest::html_node("meta[name='access_control']") |>
@@ -157,6 +166,9 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
       publication_year <- strsplit(x$publication_date, "/")[[1]][1]
       publication_month <- strsplit(x$publication_date, "/")[[1]][2]
       pages <- paste0(x$firstpage, if (!is.na(x$firstpage) && !is.na(x$lastpage)) "-" else "", x$lastpage)
+      if (collapse == "|") {
+        collapse <- "\\|"
+      }
 
       bibtex_entry <- paste0(
         "@article{",
@@ -168,7 +180,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
         "  title   = {", ifelse(!is.na(x$title), x$title, ""), "},\n",
         "  author  = {",
         if (!is.null(collapse)) {
-          ifelse(length(x$authors) != 0, gsub(collapse, " and ", x$authors), "")
+          ifelse(!is.na(x$authors), gsub(collapse, " and ", x$authors), "")
         } else {
           paste(sapply(x$authors, function(i) {
             paste(i$lastName, i$firstName, sep = ", ")
