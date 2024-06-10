@@ -31,7 +31,7 @@ WebAPIを利用して，J-STAGEに公開されている情報を取得するた�
 jstagerパッケージはCRANからインストールできます。
 
 ``` r
-install.packages("fude")
+install.packages("jstager")
 ```
 
 開発版はGitHubからインストールできます。
@@ -147,7 +147,7 @@ write_jstage_to_excel(d2, "results.xlsx")
 ### 論文のメタデータの取得
 
 ``` r
-d4 <- jstage_metadata(d2$entry$DOI[8])
+d4 <- jstage_metadata(d2$entry$DOI[8], bibtex = "../example.bib")
 d4$keywords
 #> [1] "iPS細胞"                    "創薬"                      
 #> [3] "ドラッグ・リポジショニング" "個別化医療"                

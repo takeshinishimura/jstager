@@ -86,7 +86,7 @@
 </h2>
 <p>jstagerパッケージはCRANからインストールできます。</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"fude"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"jstager"</span><span class="op">)</span></span></code></pre></div>
 <p>開発版はGitHubからインストールできます。</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
@@ -195,7 +195,7 @@
 <h3 id="論文のメタデータの取得">論文のメタデータの取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E3%81%AE%E3%83%A1%E3%82%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%8F%96%E5%BE%97"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span>, bibtex <span class="op">=</span> <span class="st">"../example.bib"</span><span class="op">)</span></span>
 <span><span class="va">d4</span><span class="op">$</span><span class="va">keywords</span></span>
 <span><span class="co">#&gt; [1] "iPS細胞"                    "創薬"                      </span></span>
 <span><span class="co">#&gt; [3] "ドラッグ・リポジショニング" "個別化医療"                </span></span>
