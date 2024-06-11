@@ -1,7 +1,7 @@
 Package: jstager
 Type: Package
 Title: Retrieve Information Published on J-STAGE
-Version: 0.0.2
+Version: 0.0.2.9000
 Authors@R: 
     person(given = "Takeshi",
            family = "Nishimura",
