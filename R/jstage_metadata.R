@@ -7,11 +7,17 @@
 #'   The URL or DOI of the J-STAGE article.
 #' @param collapse
 #'   A character string to separate multiple authors' names and keywords.
-#' @param bibtex_file_name
-#'   The file name to save the BibTeX entry. If empty, no file is saved.
+#'   If you are unsure which string to use, please specify "\\n".
+#' @param bibtex_path
+#'   The path to save the BibTeX entry. If `bibtex_path` is not NULL, a BibTeX
+#'   file will be saved. Specify "." to save the file in the working directory.
 #' @return A list containing the article metadata.
 #' @export
-jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
+jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
+
+  if (!is.null(collapse) && grepl(",", collapse)) {
+    stop("\u5f15\u6570 `collapse` \u306e\u6587\u5b57\u5217\u306b \',\' \u306f\u4f7f\u3048\u307e\u305b\u3093\u3002")
+  }
 
   tryCatch({
     if (!grepl("^https?://", url)) {
@@ -44,7 +50,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     if (length(author_list) == 0) {
       author_list <- NA
     }
-    if (!is.na(author_list) & !is.null(collapse)) {
+    if (!is.na(author_list) && !is.null(collapse)) {
       author_list <- paste(sapply(author_list, function(i) {
         paste(i$lastName, i$firstName, sep = ", ")
       }), collapse = collapse)
@@ -55,7 +61,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     if (length(authors_institutions) == 0) {
       authors_institutions <- NA
     }
-    if (!is.na(authors_institutions) & !is.null(collapse)) {
+    if (!is.na(authors_institutions) && !is.null(collapse)) {
       authors_institutions <- paste0(authors_institutions, collapse = collapse)
     }
     title <- page |>
@@ -112,7 +118,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     if (length(keywords) == 0) {
       keywords <- NA
     }
-    if (!is.na(keywords) & !is.null(collapse)) {
+    if (!is.na(keywords) && !is.null(collapse)) {
       keywords <- paste0(keywords, collapse = collapse)
     }
     abstract <- page |>
@@ -124,7 +130,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
     if (length(references) == 0) {
       references <- NA
     }
-    if (!is.na(references) & !is.null(collapse)) {
+    if (!is.na(references) && !is.null(collapse)) {
       references <- paste0(references, collapse = collapse)
     }
     access_control <- page |>
@@ -162,7 +168,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
       copyright = copyright
     )
 
-    if (bibtex_file_name != "") {
+    if (!is.null(bibtex_path)) {
       publication_year <- strsplit(x$publication_date, "/")[[1]][1]
       publication_month <- strsplit(x$publication_date, "/")[[1]][2]
       pages <- paste0(x$firstpage, if (!is.na(x$firstpage) && !is.na(x$lastpage)) "-" else "", x$lastpage)
@@ -170,13 +176,25 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
         collapse <- "\\|"
       }
 
-      bibtex_entry <- paste0(
-        "@article{",
+      bibtex_file_name <- paste0(
         tolower(if (!is.null(collapse)) {
           sub(",.*", "", x$authors)
         } else {
           x$authors[[1]]$lastName
-        }), publication_year, ",\n",
+        }), publication_year)
+
+      bibtex_full_name <- file.path(bibtex_path, paste0(bibtex_file_name, ".bib"))
+      bibtex_suffix <- ""
+      bibtex_counter <- 0
+      while (file.exists(bibtex_full_name)) {
+        bibtex_counter <- bibtex_counter + 1
+        bibtex_suffix <- intToUtf8(utf8ToInt("a") + bibtex_counter - 1)
+        bibtex_full_name <- file.path(bibtex_path, paste0(bibtex_file_name, bibtex_suffix, ".bib"))
+      }
+      bibtex_file_name <- tools::file_path_sans_ext(basename(bibtex_full_name))
+
+      bibtex_entry <- paste0(
+        "@article{", bibtex_file_name, ",\n",
         "  title   = {", ifelse(!is.na(x$title), x$title, ""), "},\n",
         "  author  = {",
         if (!is.null(collapse)) {
@@ -198,7 +216,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_file_name = "") {
         "  abstract = {", ifelse(!is.na(x$abstract), x$abstract, ""), "}\n",
         "}"
       )
-      cat(bibtex_entry, file = bibtex_file_name)
+      cat(bibtex_entry, file = bibtex_full_name)
     }
 
     return(x)

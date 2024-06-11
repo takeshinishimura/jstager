@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jstage_metadata</span><span class="op">(</span><span class="va">url</span>, collapse <span class="op">=</span> <span class="cn">NULL</span>, bibtex_file_name <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jstage_metadata</span><span class="op">(</span><span class="va">url</span>, collapse <span class="op">=</span> <span class="cn">NULL</span>, bibtex_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -63,11 +63,13 @@
 
 
 <dt>collapse</dt>
-<dd><p>A character string to separate multiple authors' names and keywords.</p></dd>
+<dd><p>A character string to separate multiple authors' names and keywords.
+If you are unsure which string to use, please specify "\n".</p></dd>
 
 
-<dt>bibtex_file_name</dt>
-<dd><p>The file name to save the BibTeX entry. If empty, no file is saved.</p></dd>
+<dt>bibtex_path</dt>
+<dd><p>The path to save the BibTeX entry. If <code>bibtex_path</code> is not NULL, a BibTeX
+file will be saved. Specify "." to save the file in the working directory.</p></dd>
 
 </dl></div>
     <div id="value">
