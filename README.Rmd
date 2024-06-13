@@ -73,7 +73,7 @@ d1
 ### 論文検索結果の取得
 
 ```{r example_article}
-d2 <- get_jstage_articles(author = "山中 伸弥")
+d2 <- get_jstage_articles(text = "象の卵")
 d2
 ```
 

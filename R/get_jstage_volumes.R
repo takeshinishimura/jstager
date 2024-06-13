@@ -284,7 +284,8 @@ xml_entry2 <- function(x) {
 
 convert_numeric_columns <- function(df, columns) {
   for (i in columns) {
-    if (all(suppressWarnings(!is.na(as.numeric(df[[i]]))))) {
+    numeric_col <- suppressWarnings(as.numeric(df[[i]]))
+    if (all(is.na(df[[i]]) | !is.na(numeric_col))) {
       df[[i]] <- as.numeric(df[[i]])
     }
   }
