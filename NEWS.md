@@ -1,5 +1,7 @@
 # jstager (development version)
 
+* Minor Improvements.
+
 # jstager 0.0.2
 
 * Initial CRAN submission.

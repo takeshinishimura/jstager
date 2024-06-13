@@ -24,7 +24,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
       url <- paste0("https://doi.org/", url)
     }
     response <- httr::GET(url)
-    response_url <- sub("/$", "", response$url)
+    response_url <- response$url
     page <- rvest::read_html(response)
 
     journal_title <- page |>
@@ -41,10 +41,10 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
       rvest::html_attr("content")
     author_list <- lapply(authors, function(author) {
       names <- strsplit(author, " ")[[1]]
-      if (grepl("-char/en", response_url)) {
-        list(lastName = names[length(names)], firstName = paste(names[-length(names)], collapse = " "))
-      } else {
+      if (grepl("-char/ja", response_url)) {
         list(lastName = names[1], firstName = paste(names[-1], collapse = " "))
+      } else {
+        list(lastName = names[length(names)], firstName = paste(names[-length(names)], collapse = " "))
       }
     })
     if (length(author_list) == 0) {
@@ -188,7 +188,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
       bibtex_counter <- 0
       while (file.exists(bibtex_full_name)) {
         bibtex_counter <- bibtex_counter + 1
-        bibtex_suffix <- intToUtf8(utf8ToInt("a") + bibtex_counter - 1)
+        bibtex_suffix <- intToUtf8(utf8ToInt("b") + bibtex_counter - 1)
         bibtex_full_name <- file.path(bibtex_path, paste0(bibtex_file_name, bibtex_suffix, ".bib"))
       }
       bibtex_file_name <- tools::file_path_sans_ext(basename(bibtex_full_name))

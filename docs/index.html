@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jstager</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.9000</span>
       </span>
     </div>
 
@@ -139,6 +139,42 @@
 <span><span class="co">#&gt; #   終了ページ &lt;chr&gt;, 発行年 &lt;dbl&gt;, システムコード &lt;chr&gt;, システム名 &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   サブフィード名 &lt;chr&gt;, サブフィードURL &lt;chr&gt;, サブフィードID &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   最新公開日 &lt;chr&gt;</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th>引数</th>
+<th>内容</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>pubyearfrom</td>
+<td>発行年の始まり（西暦4桁）</td>
+</tr>
+<tr class="even">
+<td>pubyearto</td>
+<td>発行年の終わり（西暦4桁）</td>
+</tr>
+<tr class="odd">
+<td>material</td>
+<td>資料名（完全一致）</td>
+</tr>
+<tr class="even">
+<td>issn</td>
+<td>ISSN（完全一致，XXXX-XXXX形式）</td>
+</tr>
+<tr class="odd">
+<td>cdjournal</td>
+<td>資料コード</td>
+</tr>
+<tr class="even">
+<td>volorder</td>
+<td>結果の並び順（1:巻，分冊，号の昇順，2:降順）</td>
+</tr>
+<tr class="odd">
+<td>lang</td>
+<td>表頭を日本語にする（“ja”）か否か</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="論文検索結果の取得">論文検索結果の取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E6%A4%9C%E7%B4%A2%E7%B5%90%E6%9E%9C%E3%81%AE%E5%8F%96%E5%BE%97"></a>
@@ -181,6 +217,90 @@
 <span><span class="co">#&gt; #   開始ページ &lt;chr&gt;, 終了ページ &lt;chr&gt;, 発行年 &lt;dbl&gt;, JOI &lt;chr&gt;, DOI &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   システムコード &lt;chr&gt;, システム名 &lt;chr&gt;, サブフィード名 &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   サブフィードURL &lt;chr&gt;, サブフィードID &lt;chr&gt;, 最新公開日 &lt;chr&gt;</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="87%">
+</colgroup>
+<thead><tr class="header">
+<th>引数</th>
+<th>内容</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>pubyearfrom</td>
+<td>発行年の始まり（西暦4桁）</td>
+</tr>
+<tr class="even">
+<td>pubyearto</td>
+<td>発行年の終わり（西暦4桁）</td>
+</tr>
+<tr class="odd">
+<td>material</td>
+<td>資料名（部分一致）</td>
+</tr>
+<tr class="even">
+<td>article</td>
+<td>論文タイトル（部分一致）</td>
+</tr>
+<tr class="odd">
+<td>author</td>
+<td>著者名（部分一致，姓と名の間にスペースを入れる）</td>
+</tr>
+<tr class="even">
+<td>affil</td>
+<td>著者所属機関（部分一致）</td>
+</tr>
+<tr class="odd">
+<td>keyword</td>
+<td>キーワード（部分一致）</td>
+</tr>
+<tr class="even">
+<td>abst</td>
+<td>抄録（部分一致）</td>
+</tr>
+<tr class="odd">
+<td>text</td>
+<td>全文（部分一致）</td>
+</tr>
+<tr class="even">
+<td>issn</td>
+<td>ISSN（完全一致，XXXX-XXXX形式）</td>
+</tr>
+<tr class="odd">
+<td>cdjournal</td>
+<td>資料コード</td>
+</tr>
+<tr class="even">
+<td>sortflg</td>
+<td>結果の並び順（1:スコア順，2:巻，分冊，号，開始ページの降順），materialかissnの指定が必要</td>
+</tr>
+<tr class="odd">
+<td>vol</td>
+<td>巻（完全一致）</td>
+</tr>
+<tr class="even">
+<td>no</td>
+<td>号（完全一致）</td>
+</tr>
+<tr class="odd">
+<td>start</td>
+<td>検索結果の中から取得を開始する件数</td>
+</tr>
+<tr class="even">
+<td>count</td>
+<td>取得件数の上限（デフォルトは1,000）</td>
+</tr>
+<tr class="odd">
+<td>sep</td>
+<td>複数の著者名の間の区切り文字（デフォルトは改行）</td>
+</tr>
+<tr class="even">
+<td>lang</td>
+<td>表頭を日本語にする（“ja”）か否か</td>
+</tr>
+</tbody>
+</table>
 <p>一度に取得できるデータは最大1,000件です。 1,000件を超えるデータを取得する場合は，しばらく時間をおいてから，次のように引数 <code>start</code> を指定して続きを取得してください。</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_jstage_articles.html">get_jstage_articles</a></span><span class="op">(</span>article <span class="op">=</span> <span class="st">"iPS"</span>, start <span class="op">=</span> <span class="fl">1001</span><span class="op">)</span></span></code></pre></div>
@@ -196,7 +316,7 @@
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_metadata.html">jstage_metadata</a></span><span class="op">(</span><span class="va">d2</span><span class="op">$</span><span class="va">entry</span><span class="op">$</span><span class="va">DOI</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span>, bibtex_path <span class="op">=</span> <span class="st">"~"</span><span class="op">)</span></span></code></pre></div>
-<p><a href="https://www.zotero.org/" target="_blank" class="external-link">Zotero</a> ユーザーは，J-STAGE の情報を <a href="https://www.zotero.org/download/connectors" target="_blank" class="external-link">Zotero Connector</a> 経由で登録する際に，著者名の姓と名が逆になるという問題が発生します。 この問題は BibTeX を経由することで回避できます。</p>
+<p><a href="https://www.zotero.org/" target="_blank" class="external-link">Zotero</a> ユーザーは，J-STAGE の情報を <a href="https://www.zotero.org/download/connectors" target="_blank" class="external-link">Zotero Connector</a> 経由で登録する際に，著者名の姓と名が逆になるという問題を経験したことがあるはずです。 この問題は BibTeX を経由することで回避できます。</p>
 <p>Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja" target="_blank" class="external-link">J-STAGE</a></p>
 </div>
 </div>

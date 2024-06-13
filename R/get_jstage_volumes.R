@@ -81,7 +81,7 @@ get_jstage_volumes <- function(pubyearfrom = NA,
                    "\u6700\u65b0\u516c\u958b\u65e5")
   }
 
-  list(metadata = dm, entry = de)
+  return(list(metadata = dm, entry = de))
 
 }
 
