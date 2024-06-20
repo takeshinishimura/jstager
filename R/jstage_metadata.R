@@ -207,6 +207,12 @@ jstage_metadata <- function(url,
         collapse <- "\\|"
       }
 
+      if (!is.null(pdf_path)) {
+        file_name <- tools::file_path_sans_ext(basename(pdf_full_name))
+      } else {
+        file_name <- file_name
+      }
+
       bibtex_full_name <- file.path(bibtex_path, paste0(file_name, ".bib"))
       bibtex_suffix <- ""
       bibtex_counter <- 0
