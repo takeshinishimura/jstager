@@ -175,7 +175,7 @@ write_jstage_to_excel(d2, "results.xlsx")
 ### 論文のメタデータの取得
 
 ``` r
-d4 <- jstage_metadata(d2$entry$DOI[8], bibtex_path = "~")
+d4 <- jstage_metadata(d2$entry$DOI[8], pdf_path = ".", bibtex_path = ".")
 ```
 
 <a href="https://www.zotero.org/" target="_blank">Zotero</a>

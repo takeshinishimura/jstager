@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jstage_metadata</span><span class="op">(</span><span class="va">url</span>, collapse <span class="op">=</span> <span class="cn">NULL</span>, bibtex_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jstage_metadata</span><span class="op">(</span><span class="va">url</span>, collapse <span class="op">=</span> <span class="cn">NULL</span>, pdf_path <span class="op">=</span> <span class="cn">NULL</span>, bibtex_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,6 +65,12 @@
 <dt>collapse</dt>
 <dd><p>A character string to separate multiple authors' names and keywords.
 If you are unsure which string to use, please specify "\n".</p></dd>
+
+
+<dt>pdf_path</dt>
+<dd><p>The path where the PDF file of the article will be downloaded. If
+<code>pdf_path</code> is not NULL, the PDF file will be downloaded to the specified
+location. Specify "." to save the file in the working directory.</p></dd>
 
 
 <dt>bibtex_path</dt>

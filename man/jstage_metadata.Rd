@@ -4,13 +4,17 @@
 \alias{jstage_metadata}
 \title{Scrape J-STAGE Article Metadata}
 \usage{
-jstage_metadata(url, collapse = NULL, bibtex_path = NULL)
+jstage_metadata(url, collapse = NULL, pdf_path = NULL, bibtex_path = NULL)
 }
 \arguments{
 \item{url}{The URL or DOI of the J-STAGE article.}
 
 \item{collapse}{A character string to separate multiple authors' names and keywords.
 If you are unsure which string to use, please specify "\\n".}
+
+\item{pdf_path}{The path where the PDF file of the article will be downloaded. If
+\code{pdf_path} is not NULL, the PDF file will be downloaded to the specified
+location. Specify "." to save the file in the working directory.}
 
 \item{bibtex_path}{The path to save the BibTeX entry. If \code{bibtex_path} is not NULL, a BibTeX
 file will be saved. Specify "." to save the file in the working directory.}

@@ -8,12 +8,19 @@
 #' @param collapse
 #'   A character string to separate multiple authors' names and keywords.
 #'   If you are unsure which string to use, please specify "\\n".
+#' @param pdf_path
+#'   The path where the PDF file of the article will be downloaded. If
+#'   `pdf_path` is not NULL, the PDF file will be downloaded to the specified
+#'   location. Specify "." to save the file in the working directory.
 #' @param bibtex_path
 #'   The path to save the BibTeX entry. If `bibtex_path` is not NULL, a BibTeX
 #'   file will be saved. Specify "." to save the file in the working directory.
 #' @return A list containing the article metadata.
 #' @export
-jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
+jstage_metadata <- function(url,
+                            collapse = NULL,
+                            pdf_path = NULL,
+                            bibtex_path = NULL) {
 
   if (!is.null(collapse) && grepl(",", collapse)) {
     stop("\u5f15\u6570 `collapse` \u306e\u6587\u5b57\u5217\u306b \',\' \u306f\u4f7f\u3048\u307e\u305b\u3093\u3002")
@@ -50,7 +57,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
     if (length(author_list) == 0) {
       author_list <- NA
     }
-    if (!is.na(author_list) && !is.null(collapse)) {
+    if (!is.na(author_list[1]) && !is.null(collapse)) {
       author_list <- paste(sapply(author_list, function(i) {
         paste(i$lastName, i$firstName, sep = ", ")
       }), collapse = collapse)
@@ -61,7 +68,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
     if (length(authors_institutions) == 0) {
       authors_institutions <- NA
     }
-    if (!is.na(authors_institutions) && !is.null(collapse)) {
+    if (!is.na(authors_institutions[1]) && !is.null(collapse)) {
       authors_institutions <- paste0(authors_institutions, collapse = collapse)
     }
     title <- page |>
@@ -71,7 +78,7 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
       rvest::html_node("meta[name='subtitle']") |>
       rvest::html_attr("content")
     if (!is.na(subtitle)) {
-      title <- paste0(title, subtitle)
+      title <- paste(title, subtitle, sep = " ")
     }
     publication_date <- page |>
       rvest::html_node("meta[name='publication_date']") |>
@@ -168,28 +175,45 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
       copyright = copyright
     )
 
+    publication_year <- strsplit(x$publication_date, "/")[[1]][1]
+    publication_month <- strsplit(x$publication_date, "/")[[1]][2]
+
+    file_name <- paste0(
+      tolower(if (!is.null(collapse)) {
+        sub(",.*", "", x$authors)
+      } else {
+        if (is.list(x$authors) && !is.null(x$authors[[1]]$lastName)) {
+          x$authors[[1]]$lastName
+        } else {
+          "anonymous"
+        }
+      }), publication_year)
+
+    if (!is.null(pdf_path)) {
+      pdf_full_name <- file.path(pdf_path, paste0(file_name, ".pdf"))
+      pdf_suffix <- ""
+      pdf_counter <- 0
+      while (file.exists(pdf_full_name)) {
+        pdf_counter <- pdf_counter + 1
+        pdf_suffix <- intToUtf8(utf8ToInt("b") + pdf_counter - 1)
+        pdf_full_name <- file.path(pdf_path, paste0(file_name, pdf_suffix, ".pdf"))
+      }
+      utils::download.file(x$pdf_url, destfile = pdf_full_name)
+    }
+
     if (!is.null(bibtex_path)) {
-      publication_year <- strsplit(x$publication_date, "/")[[1]][1]
-      publication_month <- strsplit(x$publication_date, "/")[[1]][2]
       pages <- paste0(x$firstpage, if (!is.na(x$firstpage) && !is.na(x$lastpage)) "-" else "", x$lastpage)
-      if (collapse == "|") {
+      if (!is.null(collapse) && collapse == "|") {
         collapse <- "\\|"
       }
 
-      bibtex_file_name <- paste0(
-        tolower(if (!is.null(collapse)) {
-          sub(",.*", "", x$authors)
-        } else {
-          x$authors[[1]]$lastName
-        }), publication_year)
-
-      bibtex_full_name <- file.path(bibtex_path, paste0(bibtex_file_name, ".bib"))
+      bibtex_full_name <- file.path(bibtex_path, paste0(file_name, ".bib"))
       bibtex_suffix <- ""
       bibtex_counter <- 0
       while (file.exists(bibtex_full_name)) {
         bibtex_counter <- bibtex_counter + 1
         bibtex_suffix <- intToUtf8(utf8ToInt("b") + bibtex_counter - 1)
-        bibtex_full_name <- file.path(bibtex_path, paste0(bibtex_file_name, bibtex_suffix, ".bib"))
+        bibtex_full_name <- file.path(bibtex_path, paste0(file_name, bibtex_suffix, ".bib"))
       }
       bibtex_file_name <- tools::file_path_sans_ext(basename(bibtex_full_name))
 
@@ -223,31 +247,31 @@ jstage_metadata <- function(url, collapse = NULL, bibtex_path = NULL) {
 
   }, error = function(e) {
 
-    x <- list(
-      url = response_url,
-      journal_title = NA,
-      journal_abbrev = NA,
-      publisher = NA,
-      authors = NA,
-      authors_institutions = NA,
-      title = NA,
-      publication_date = NA,
-      volume = NA,
-      issue = NA,
-      firstpage = NA,
-      lastpage = NA,
-      doi = NA,
-      fulltext_world_readable = NA,
-      pdf_url = NA,
-      print_issn = NA,
-      online_issn = NA,
-      issn_l = NA,
-      language = NA,
-      keywords = NA,
-      abstract = NA,
-      references = NA,
-      access_control = NA,
-      copyright = NA
+  x <- list(
+    url = response_url,
+    journal_title = NA,
+    journal_abbrev = NA,
+    publisher = NA,
+    authors = NA,
+    authors_institutions = NA,
+    title = NA,
+    publication_date = NA,
+    volume = NA,
+    issue = NA,
+    firstpage = NA,
+    lastpage = NA,
+    doi = NA,
+    fulltext_world_readable = NA,
+    pdf_url = NA,
+    print_issn = NA,
+    online_issn = NA,
+    issn_l = NA,
+    language = NA,
+    keywords = NA,
+    abstract = NA,
+    references = NA,
+    access_control = NA,
+    copyright = NA
     )
 
     return(x)
