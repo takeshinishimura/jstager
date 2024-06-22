@@ -1,4 +1,4 @@
-# jstager (development version)
+# jstager 0.0.3
 
 * Minor Improvements.
 
