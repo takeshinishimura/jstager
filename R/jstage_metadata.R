@@ -225,8 +225,8 @@ jstage_metadata <- function(url,
 
       bibtex_entry <- paste0(
         "@article{", bibtex_file_name, ",\n",
-        "  title   = {", ifelse(!is.na(x$title), x$title, ""), "},\n",
-        "  author  = {",
+        "  title     = {", ifelse(!is.na(x$title), x$title, ""), "},\n",
+        "  author    = {",
         if (!is.null(collapse)) {
           ifelse(!is.na(x$authors), gsub(collapse, " and ", x$authors), "")
         } else {
