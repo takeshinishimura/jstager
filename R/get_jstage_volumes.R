@@ -105,59 +105,25 @@ get_jstage <- function(pubyearfrom = NA,
                        service,
                        retries = 1,
                        sleep_time = 5) {
-  params <- list()
 
-  if (!is.na(pubyearfrom)) {
-    params <- c(params, pubyearfrom = pubyearfrom)
-  }
-  if (!is.na(pubyearto)) {
-    params <- c(params, pubyearto = pubyearto)
-  }
-  if (material != "") {
-    params <- c(params, material = utils::URLencode(material))
-  }
-  if (article != "") {
-    params <- c(params, article = utils::URLencode(article))
-  }
-  if (author != "") {
-    params <- c(params, author = utils::URLencode(author))
-  }
-  if (affil != "") {
-    params <- c(params, affil = utils::URLencode(affil))
-  }
-  if (keyword != "") {
-    params <- c(params, keyword = utils::URLencode(keyword))
-  }
-  if (abst != "") {
-    params <- c(params, abst = utils::URLencode(abst))
-  }
-  if (text != "") {
-    params <- c(params, text = utils::URLencode(text))
-  }
-  if (issn != "") {
-    params <- c(params, issn = issn)
-  }
-  if (cdjournal != "") {
-    params <- c(params, cdjournal = cdjournal)
-  }
-  if (!is.na(volorder)) {
-    params <- c(params, volorder = volorder)
-  }
-  if (!is.na(sortflg)) {
-    params <- c(params, sortflg = sortflg)
-  }
-  if (!is.na(vol)) {
-    params <- c(params, vol = vol)
-  }
-  if (!is.na(no)) {
-    params <- c(params, no = no)
-  }
-  if (!is.na(start)) {
-    params <- c(params, start = start)
-  }
-  if (!is.na(count)) {
-    params <- c(params, count = count)
-  }
+  params <- list()
+  params <- add_param(params, "pubyearfrom", pubyearfrom)
+  params <- add_param(params, "pubyearto", pubyearto)
+  params <- add_param(params, "material", material, TRUE)
+  params <- add_param(params, "article", article, TRUE)
+  params <- add_param(params, "author", author, TRUE)
+  params <- add_param(params, "affil", affil, TRUE)
+  params <- add_param(params, "keyword", keyword, TRUE)
+  params <- add_param(params, "abst", abst, TRUE)
+  params <- add_param(params, "text", text, TRUE)
+  params <- add_param(params, "issn", issn)
+  params <- add_param(params, "cdjournal", cdjournal)
+  params <- add_param(params, "volorder", volorder)
+  params <- add_param(params, "sortflg", sortflg)
+  params <- add_param(params, "vol", vol)
+  params <- add_param(params, "no", no)
+  params <- add_param(params, "start", start)
+  params <- add_param(params, "count", count)
 
   query_string <- if (length(params) > 0) {
     paste0("&", paste(names(params), params, sep = "=", collapse = "&"))
@@ -174,6 +140,19 @@ get_jstage <- function(pubyearfrom = NA,
 
 }
 
+add_param <- function(params, param_name, param_value, encode = FALSE) {
+
+  if (!is.na(param_value) && param_value != "") {
+    if (encode) {
+      param_value <- utils::URLencode(param_value)
+    }
+    params[[param_name]] <- param_value
+  }
+
+  return(params)
+
+}
+
 retry_request <- function(url, retries = 1, sleep_time = 5) {
   for (i in 1:retries) {
     response <- try(httr::GET(url), silent = TRUE)
@@ -187,19 +166,19 @@ retry_request <- function(url, retries = 1, sleep_time = 5) {
   stop("All attempts failed.")
 }
 
-xml_meta <- function(x) {
+xml_meta <- function(meta) {
 
   dm <- tibble::tibble(
-    status = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:result/d1:status")),
-    message = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:result/d1:message")),
-    title = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:title")),
-    link = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:link")),
-    id = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:id")),
-    servicecd = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:servicecd")),
-    updated = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//d1:updated")),
-    totalResults = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//opensearch:totalResults")),
-    startIndex = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//opensearch:startIndex")),
-    itemsPerPage = xml2::xml_text(xml2::xml_find_first(x = x, xpath = "//opensearch:itemsPerPage"))
+    status = get_xml_text(meta, "//d1:result/d1:status"),
+    message = get_xml_text(meta, "//d1:result/d1:message"),
+    title = get_xml_text(meta, "//d1:title"),
+    link = get_xml_text(meta, "//d1:link"),
+    id = get_xml_text(meta, "//d1:id"),
+    servicecd = get_xml_text(meta, "//d1:servicecd"),
+    updated = get_xml_text(meta, "//d1:updated"),
+    totalResults = get_xml_text(meta, "//opensearch:totalResults"),
+    startIndex = get_xml_text(meta, "//opensearch:startIndex"),
+    itemsPerPage = get_xml_text(meta, "//opensearch:itemsPerPage")
   )
 
   dm <- convert_numeric_columns(dm, c("totalResults", "startIndex", "itemsPerPage"))
@@ -214,37 +193,37 @@ xml_entry2 <- function(x) {
   data_list <- list()
 
   for (entry in entries) {
-    vols_title_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:vols_title/d1:en"))
-    vols_title_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:vols_title/d1:ja"))
-    vols_link_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:vols_link/d1:en"))
-    vols_link_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:vols_link/d1:ja"))
+    vols_title_en <- get_xml_text(entry, "d1:vols_title/d1:en")
+    vols_title_ja <- get_xml_text(entry, "d1:vols_title/d1:ja")
+    vols_link_en <- get_xml_text(entry, "d1:vols_link/d1:en")
+    vols_link_ja <- get_xml_text(entry, "d1:vols_link/d1:ja")
 
-    issn <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:issn"))
-    eIssn <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:eIssn"))
+    issn <- get_xml_text(entry, "d1:issn")
+    eIssn <- get_xml_text(entry, "d1:eIssn")
 
-    publisher_name_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:publisher/d1:name/d1:en"))
-    publisher_name_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:publisher/d1:name/d1:ja"))
-    publisher_url_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:publisher/d1:url/d1:en"))
-    publisher_url_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:publisher/d1:url/d1:ja"))
+    publisher_name_en <- get_xml_text(entry, "d1:publisher/d1:name/d1:en")
+    publisher_name_ja <- get_xml_text(entry, "d1:publisher/d1:name/d1:ja")
+    publisher_url_en <- get_xml_text(entry, "d1:publisher/d1:url/d1:en")
+    publisher_url_ja <- get_xml_text(entry, "d1:publisher/d1:url/d1:ja")
 
-    cdjournal <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:cdjournal"))
-    material_title_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:material_title/d1:en"))
-    material_title_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:material_title/d1:ja"))
+    cdjournal <- get_xml_text(entry, "d1:cdjournal")
+    material_title_en <- get_xml_text(entry, "d1:material_title/d1:en")
+    material_title_ja <- get_xml_text(entry, "d1:material_title/d1:ja")
 
-    volume <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:volume"))
-    cdvols <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:cdvols"))
-    number <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:number"))
-    startingPage <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:startingPage"))
-    endingPage <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:endingPage"))
+    volume <- get_xml_text(entry, "prism:volume")
+    cdvols <- get_xml_text(entry, "prism:cdvols")
+    number <- get_xml_text(entry, "prism:number")
+    startingPage <- get_xml_text(entry, "prism:startingPage")
+    endingPage <- get_xml_text(entry, "prism:endingPage")
 
-    pubyear <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:pubyear"))
+    pubyear <- get_xml_text(entry, "d1:pubyear")
 
-    systemcode <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:systemcode"))
-    systemname <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:systemname"))
-    title <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:title"))
-    link <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:link"))
-    id <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:id"))
-    updated <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:updated"))
+    systemcode <- get_xml_text(entry, "d1:systemcode")
+    systemname <- get_xml_text(entry, "d1:systemname")
+    title <- get_xml_text(entry, "d1:title")
+    link <- get_xml_text(entry, "d1:link")
+    id <- get_xml_text(entry, "d1:id")
+    updated <- get_xml_text(entry, "d1:updated")
 
     data_list[[length(data_list) + 1]] <- tibble::tibble(
       vols_title_en = vols_title_en,
@@ -282,12 +261,19 @@ xml_entry2 <- function(x) {
 
 }
 
+get_xml_text <- function(x, xpath) {
+  xml2::xml_text(xml2::xml_find_first(x = x, xpath = xpath))
+}
+
 convert_numeric_columns <- function(df, columns) {
+
   for (i in columns) {
     numeric_col <- suppressWarnings(as.numeric(df[[i]]))
     if (all(is.na(df[[i]]) | !is.na(numeric_col))) {
       df[[i]] <- as.numeric(df[[i]])
     }
   }
+
   return(df)
+
 }

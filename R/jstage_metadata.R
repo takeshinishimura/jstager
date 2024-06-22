@@ -125,7 +125,7 @@ jstage_metadata <- function(url,
     if (length(keywords) == 0) {
       keywords <- NA
     }
-    if (!is.na(keywords) && !is.null(collapse)) {
+    if (!is.na(keywords[1]) && !is.null(collapse)) {
       keywords <- paste0(keywords, collapse = collapse)
     }
     abstract <- page |>
@@ -137,7 +137,7 @@ jstage_metadata <- function(url,
     if (length(references) == 0) {
       references <- NA
     }
-    if (!is.na(references) && !is.null(collapse)) {
+    if (!is.na(references[1]) && !is.null(collapse)) {
       references <- paste0(references, collapse = collapse)
     }
     access_control <- page |>
@@ -234,16 +234,16 @@ jstage_metadata <- function(url,
             paste(i$lastName, i$firstName, sep = ", ")
           }), collapse = " and ")
         }, "},\n",
-        "  journal = {", ifelse(!is.na(x$journal_title), x$journal_title, ""), "},\n",
-        "  volume  = {", ifelse(!is.na(x$volume), x$volume, ""), "},\n",
-        "  number  = {", ifelse(!is.na(x$issue), x$issue, ""), "},\n",
-        "  pages   = {", ifelse(!is.na(x$firstpage), pages, ""), "},\n",
-        "  year    = {", ifelse(!is.na(publication_year), publication_year, ""), "},\n",
-        "  month   = {", ifelse(!is.na(publication_month), publication_month, ""), "},\n",
+        "  journal   = {", ifelse(!is.na(x$journal_title), x$journal_title, ""), "},\n",
+        "  volume    = {", ifelse(!is.na(x$volume), x$volume, ""), "},\n",
+        "  number    = {", ifelse(!is.na(x$issue), x$issue, ""), "},\n",
+        "  pages     = {", ifelse(!is.na(x$firstpage), pages, ""), "},\n",
+        "  year      = {", ifelse(!is.na(publication_year), publication_year, ""), "},\n",
+        "  month     = {", ifelse(!is.na(publication_month), publication_month, ""), "},\n",
         "  publisher = {", ifelse(!is.na(x$publisher), x$publisher, ""), "},\n",
-        "  doi     = {", ifelse(!is.na(x$doi), x$doi, ""), "},\n",
-        "  url     = {", response_url, "},\n",
-        "  abstract = {", ifelse(!is.na(x$abstract), x$abstract, ""), "}\n",
+        "  doi       = {", ifelse(!is.na(x$doi), x$doi, ""), "},\n",
+        "  url       = {", response_url, "},\n",
+        "  abstract  = {", ifelse(!is.na(x$abstract), x$abstract, ""), "}\n",
         "}"
       )
       cat(bibtex_entry, file = bibtex_full_name)
@@ -253,31 +253,31 @@ jstage_metadata <- function(url,
 
   }, error = function(e) {
 
-  x <- list(
-    url = response_url,
-    journal_title = NA,
-    journal_abbrev = NA,
-    publisher = NA,
-    authors = NA,
-    authors_institutions = NA,
-    title = NA,
-    publication_date = NA,
-    volume = NA,
-    issue = NA,
-    firstpage = NA,
-    lastpage = NA,
-    doi = NA,
-    fulltext_world_readable = NA,
-    pdf_url = NA,
-    print_issn = NA,
-    online_issn = NA,
-    issn_l = NA,
-    language = NA,
-    keywords = NA,
-    abstract = NA,
-    references = NA,
-    access_control = NA,
-    copyright = NA
+    x <- list(
+      url = response_url,
+      journal_title = NA,
+      journal_abbrev = NA,
+      publisher = NA,
+      authors = NA,
+      authors_institutions = NA,
+      title = NA,
+      publication_date = NA,
+      volume = NA,
+      issue = NA,
+      firstpage = NA,
+      lastpage = NA,
+      doi = NA,
+      fulltext_world_readable = NA,
+      pdf_url = NA,
+      print_issn = NA,
+      online_issn = NA,
+      issn_l = NA,
+      language = NA,
+      keywords = NA,
+      abstract = NA,
+      references = NA,
+      access_control = NA,
+      copyright = NA
     )
 
     return(x)

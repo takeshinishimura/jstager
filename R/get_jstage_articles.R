@@ -149,11 +149,11 @@ xml_entry3 <- function(x, sep) {
   data_list <- list()
 
   for (entry in entries) {
-    article_title_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:article_title/d1:en"))
-    article_title_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:article_title/d1:ja"))
+    article_title_en <- get_xml_text(entry, "d1:article_title/d1:en")
+    article_title_ja <- get_xml_text(entry, "d1:article_title/d1:ja")
 
-    article_link_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:article_link/d1:en"))
-    article_link_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:article_link/d1:ja"))
+    article_link_en <- get_xml_text(entry, "d1:article_link/d1:en")
+    article_link_ja <- get_xml_text(entry, "d1:article_link/d1:ja")
 
     author_en_nodes <- xml2::xml_find_all(x = entry, xpath = "d1:author/d1:en/d1:name")
     author_en <- paste(xml2::xml_text(author_en_nodes), collapse = sep)
@@ -161,28 +161,28 @@ xml_entry3 <- function(x, sep) {
     author_ja_nodes <- xml2::xml_find_all(x = entry, xpath = "d1:author/d1:ja/d1:name")
     author_ja <- paste(xml2::xml_text(author_ja_nodes), collapse = sep)
 
-    cdjournal <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:cdjournal"))
-    material_title_en <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:material_title/d1:en"))
-    material_title_ja <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:material_title/d1:ja"))
+    cdjournal <- get_xml_text(entry, "d1:cdjournal")
+    material_title_en <- get_xml_text(entry, "d1:material_title/d1:en")
+    material_title_ja <- get_xml_text(entry, "d1:material_title/d1:ja")
 
-    issn <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:issn"))
-    eIssn <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:eIssn"))
-    volume <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:volume"))
-    cdvols <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:cdvols"))
-    number <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:number"))
-    startingPage <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:startingPage"))
-    endingPage <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:endingPage"))
+    issn <- get_xml_text(entry, "prism:issn")
+    eIssn <- get_xml_text(entry, "prism:eIssn")
+    volume <- get_xml_text(entry, "prism:volume")
+    cdvols <- get_xml_text(entry, "prism:cdvols")
+    number <- get_xml_text(entry, "prism:number")
+    startingPage <- get_xml_text(entry, "prism:startingPage")
+    endingPage <- get_xml_text(entry, "prism:endingPage")
 
-    pubyear <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:pubyear"))
-    joi <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:joi"))
-    doi <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "prism:doi"))
+    pubyear <- get_xml_text(entry, "d1:pubyear")
+    joi <- get_xml_text(entry, "d1:joi")
+    doi <- get_xml_text(entry, "prism:doi")
 
-    systemcode <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:systemcode"))
-    systemname <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:systemname"))
-    title <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:title"))
-    link <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:link"))
-    id <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:id"))
-    updated <- xml2::xml_text(xml2::xml_find_first(x = entry, xpath = "d1:updated"))
+    systemcode <- get_xml_text(entry, "d1:systemcode")
+    systemname <- get_xml_text(entry, "d1:systemname")
+    title <- get_xml_text(entry, "d1:title")
+    link <- get_xml_text(entry, "d1:link")
+    id <- get_xml_text(entry, "d1:id")
+    updated <- get_xml_text(entry, "d1:updated")
 
     data_list[[length(data_list) + 1]] <- tibble::tibble(
       article_title_en = article_title_en,
