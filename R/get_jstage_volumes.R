@@ -106,24 +106,24 @@ get_jstage <- function(pubyearfrom = NA,
                        retries = 1,
                        sleep_time = 5) {
 
-  params <- list()
-  params <- add_param(params, "pubyearfrom", pubyearfrom)
-  params <- add_param(params, "pubyearto", pubyearto)
-  params <- add_param(params, "material", material, TRUE)
-  params <- add_param(params, "article", article, TRUE)
-  params <- add_param(params, "author", author, TRUE)
-  params <- add_param(params, "affil", affil, TRUE)
-  params <- add_param(params, "keyword", keyword, TRUE)
-  params <- add_param(params, "abst", abst, TRUE)
-  params <- add_param(params, "text", text, TRUE)
-  params <- add_param(params, "issn", issn)
-  params <- add_param(params, "cdjournal", cdjournal)
-  params <- add_param(params, "volorder", volorder)
-  params <- add_param(params, "sortflg", sortflg)
-  params <- add_param(params, "vol", vol)
-  params <- add_param(params, "no", no)
-  params <- add_param(params, "start", start)
-  params <- add_param(params, "count", count)
+  params <- list() |>
+    add_param("pubyearfrom", pubyearfrom) |>
+    add_param("pubyearto", pubyearto) |>
+    add_param("material", material) |>
+    add_param("article", article) |>
+    add_param("author", author) |>
+    add_param("affil", affil) |>
+    add_param("keyword", keyword) |>
+    add_param("abst", abst) |>
+    add_param("text", text) |>
+    add_param("issn", issn) |>
+    add_param("cdjournal", cdjournal) |>
+    add_param("volorder", volorder) |>
+    add_param("sortflg", sortflg) |>
+    add_param("vol", vol) |>
+    add_param("no", no) |>
+    add_param("start", start) |>
+    add_param("count", count)
 
   query_string <- if (length(params) > 0) {
     paste0("&", paste(names(params), params, sep = "=", collapse = "&"))
@@ -140,13 +140,10 @@ get_jstage <- function(pubyearfrom = NA,
 
 }
 
-add_param <- function(params, param_name, param_value, encode = FALSE) {
+add_param <- function(params, param_name, param_value) {
 
   if (!is.na(param_value) && param_value != "") {
-    if (encode) {
-      param_value <- utils::URLencode(param_value)
-    }
-    params[[param_name]] <- param_value
+    params[[param_name]] <- utils::URLencode(paste(param_value))
   }
 
   return(params)
@@ -185,6 +182,10 @@ xml_meta <- function(meta) {
 
   return(dm)
 
+}
+
+get_xml_text <- function(x, xpath) {
+  xml2::xml_text(xml2::xml_find_first(x = x, xpath = xpath))
 }
 
 xml_entry2 <- function(x) {
@@ -259,10 +260,6 @@ xml_entry2 <- function(x) {
 
   return(de)
 
-}
-
-get_xml_text <- function(x, xpath) {
-  xml2::xml_text(xml2::xml_find_first(x = x, xpath = xpath))
 }
 
 convert_numeric_columns <- function(df, columns) {
