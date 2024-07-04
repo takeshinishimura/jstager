@@ -253,7 +253,8 @@ v <- visNetwork(nodes, edges, width = "100%") |>
 saveWidget(v, "./docs/references.html")
 ```
 
-<a href="references.html" target="_blank">引用文献リストのサンプル</a>
+<a href="https://takeshinishimura.github.io/jstager/references.html"
+target="_blank">引用文献リストのサンプル</a>
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"
 target="_blank">J-STAGE</a>
