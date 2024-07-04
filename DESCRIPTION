@@ -20,11 +20,12 @@ Imports:
     httr,
     xml2,
     rvest,
+    chromote,
     tibble,
     dplyr,
     openxlsx
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

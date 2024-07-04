@@ -186,5 +186,69 @@ target="_blank">Zotero Connector</a>
 経由で登録する際に，著者名の姓と名が逆になるという問題を経験したことがあるはずです。
 この問題は BibTeX を経由することで回避できます。
 
+### 論文の引用文献リストの取得
+
+``` r
+d5 <- jstage_references("10.1241/johokanri.49.63", depth = 2)
+#> 階層 1 の 1 件中 1 件目を処理中...階層 2 の 5 件中 1 件目を処理中...階層 2 の 5 件中 2 件目を処理中...階層 2 の 5 件中 3 件目を処理中...階層 2 の 5 件中 4 件目を処理中...階層 2 の 5 件中 5 件目を処理中...
+```
+
+``` r
+d5
+#> # A tibble: 41 × 4
+#>    citing_doi               cited_doi                article_link          depth
+#>    <chr>                    <chr>                    <chr>                 <dbl>
+#>  1 10.1241/johokanri.49.63  10.1241/johokanri.42.682 http://www.jstage.js…     1
+#>  2 10.1241/johokanri.49.63  10.1241/johokanri.46.536 http://www.jstage.js…     1
+#>  3 10.1241/johokanri.49.63  10.1241/johokanri.48.149 http://www.jstage.js…     1
+#>  4 10.1241/johokanri.49.63  10.1241/johokanri.49.69  http://www.jstage.js…     1
+#>  5 10.1241/johokanri.49.63  10.18919/jkg.56.4_188    https://www.jstage.j…     1
+#>  6 10.1241/johokanri.42.682 10.1241/johokanri.41.343 http://www.jstage.js…     2
+#>  7 10.1241/johokanri.42.682 10.11291/jpla1956.44.137 http://www.jstage.js…     2
+#>  8 10.1241/johokanri.42.682 10.18919/jkg.49.6_295    https://www.jstage.j…     2
+#>  9 10.1241/johokanri.42.682 10.11291/jpla1956.44.266 http://www.jstage.js…     2
+#> 10 10.1241/johokanri.42.682 10.1241/johokanri.41.445 http://www.jstage.js…     2
+#> # ℹ 31 more rows
+```
+
+``` r
+library(dplyr)
+library(visNetwork)
+
+edges <- d5 |>
+  mutate(cited_doi = ifelse(is.na(cited_doi), 
+                            paste0("non-DOI ", row_number()), 
+                            cited_doi)) |>
+  select(from = cited_doi, to = citing_doi)
+
+nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
+  left_join(
+    d5 |>
+      select(cited_doi, article_link) |>
+      na.omit() |>
+      distinct(),
+    by = c("id" = "cited_doi")
+  ) |>
+  mutate(
+    group = ifelse(!is.na(article_link), "J-Stage", "Outside J-Stage"),
+    title = paste0("https://doi.org/", id)
+  )
+nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
+
+visNetwork(nodes, edges, width = "100%") |>
+  visNodes(shape = "box", shadow = TRUE) |>
+  visEdges(arrows = 'to', shadow = TRUE) |>
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) |>
+  visLegend() |>
+  visEvents(selectNode = "function(nodes) {
+    var nodeId = nodes.nodes[0];
+    var url = this.body.data.nodes.get(nodeId).title;
+    if (url !== 'NA') {
+      window.open(url, '_blank');
+    }
+  }") |>
+  visLayout(randomSeed = 100)
+```
+
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"
 target="_blank">J-STAGE</a>

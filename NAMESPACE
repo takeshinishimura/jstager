@@ -3,4 +3,5 @@
 export(get_jstage_articles)
 export(get_jstage_volumes)
 export(jstage_metadata)
+export(jstage_references)
 export(write_jstage_to_excel)
