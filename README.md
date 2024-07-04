@@ -167,7 +167,7 @@ d2
 d3 <- get_jstage_articles(article = "iPS", start = 1001)
 ```
 
-### 取得したデータをExcelに保存
+### 取得したデータをExcel形式で保存
 
 ``` r
 write_jstage_to_excel(d2, "results.xlsx")
@@ -214,6 +214,7 @@ d5
 ``` r
 library(dplyr)
 library(visNetwork)
+library(htmlwidgets)
 
 edges <- d5 |>
   mutate(cited_doi = ifelse(is.na(cited_doi), 
@@ -235,7 +236,7 @@ nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
   )
 nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
 
-visNetwork(nodes, edges, width = "100%") |>
+v <- visNetwork(nodes, edges, width = "100%") |>
   visNodes(shape = "box", shadow = TRUE) |>
   visEdges(arrows = 'to', shadow = TRUE) |>
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) |>
@@ -248,7 +249,11 @@ visNetwork(nodes, edges, width = "100%") |>
     }
   }") |>
   visLayout(randomSeed = 100)
+
+saveWidget(v, "./docs/references.html")
 ```
+
+<a href="references.html" target="_blank">引用文献リストのサンプル</a>
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"
 target="_blank">J-STAGE</a>
