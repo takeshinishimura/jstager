@@ -1,4 +1,6 @@
-# jstager (development version)
+# jstager 0.0.4
+
+* Added the ability to scrape all references from a specified article web page.
 
 # jstager 0.0.3
 
