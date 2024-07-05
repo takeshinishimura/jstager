@@ -7,7 +7,7 @@
 jstage_metadata(url, collapse = NULL, pdf_path = NULL, bibtex_path = NULL)
 }
 \arguments{
-\item{url}{The URL or DOI of the J-STAGE article.}
+\item{url}{The URL or DOI of the J-STAGE article web page.}
 
 \item{collapse}{A character string to separate multiple authors' names and keywords.
 If you are unsure which string to use, please specify "\\n".}
@@ -23,5 +23,5 @@ file will be saved. Specify "." to save the file in the working directory.}
 A list containing the article metadata.
 }
 \description{
-Scrapes all available metadata from a J-STAGE article.
+Scrapes all available metadata from a J-STAGE article web page.
 }

@@ -1,10 +1,10 @@
 #' Scrape J-STAGE References
 #'
 #' @description
-#' Scrapes all available references from a J-STAGE article.
+#' Scrapes all available references from a J-STAGE article web page.
 #'
 #' @param url
-#'   The URL or DOI of the J-STAGE article.
+#'   The URL or DOI of the J-STAGE article web page.
 #' @param depth
 #'   Integer. The depth to which references should be scraped. Default is 1.
 #' @param quiet

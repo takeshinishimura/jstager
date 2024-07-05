@@ -7,7 +7,7 @@
 jstage_references(url, depth = 1, quiet = TRUE)
 }
 \arguments{
-\item{url}{The URL or DOI of the J-STAGE article.}
+\item{url}{The URL or DOI of the J-STAGE article web page.}
 
 \item{depth}{Integer. The depth to which references should be scraped. Default is 1.}
 
@@ -17,5 +17,5 @@ jstage_references(url, depth = 1, quiet = TRUE)
 A data frame with the DOI of each reference.
 }
 \description{
-Scrapes all available references from a J-STAGE article.
+Scrapes all available references from a J-STAGE article web page.
 }

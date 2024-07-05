@@ -1,0 +1,30 @@
+Package: jstager
+Type: Package
+Title: Retrieve Information Published on J-STAGE
+Version: 0.0.3
+Authors@R: 
+    person(given = "Takeshi",
+           family = "Nishimura",
+           email = "takenishi@gmail.com",
+           role = c("aut", "cph", "cre"),
+           comment = c(ORCID = "0000-0003-1761-4300"))
+Description: Provides tools to access the J-STAGE WebAPI and retrieve 
+    information published on J-STAGE 
+    <https://www.jstage.jst.go.jp/browse/-char/ja>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 2.10)
+Imports: httr, xml2, rvest, tibble, dplyr, openxlsx
+RoxygenNote: 7.3.1
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/takeshinishimura/jstager
+BugReports: https://github.com/takeshinishimura/jstager/issues
+NeedsCompilation: no
+Packaged: 2024-06-22 05:12:00 UTC; takeshinishimura
+Author: Takeshi Nishimura [aut, cph, cre]
+    (<https://orcid.org/0000-0003-1761-4300>)
+Maintainer: Takeshi Nishimura <takenishi@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-06-22 05:30:07 UTC
+Built: R 4.4.0; ; 2024-06-22 07:20:25 UTC; unix

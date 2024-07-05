@@ -1,10 +1,10 @@
 #' Scrape J-STAGE Article Metadata
 #'
 #' @description
-#' Scrapes all available metadata from a J-STAGE article.
+#' Scrapes all available metadata from a J-STAGE article web page.
 #'
 #' @param url
-#'   The URL or DOI of the J-STAGE article.
+#'   The URL or DOI of the J-STAGE article web page.
 #' @param collapse
 #'   A character string to separate multiple authors' names and keywords.
 #'   If you are unsure which string to use, please specify "\\n".

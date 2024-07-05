@@ -122,7 +122,7 @@ d4 <- jstage_metadata(d2$entry$DOI[8], pdf_path = ".", bibtex_path = ".")
 
 ### 論文の引用文献リストの取得
 
-```{r example_article_references}
+```{r example_article_references, message = FALSE}
 d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
 d5
 ```
@@ -131,7 +131,7 @@ d5
 
 [引用文献リストの可視化](https://takeshinishimura.github.io/jstager/references.html){target="_blank"}
 
-リスト取得後に次のコードを実行するとこのような可視化ができます。
+リスト取得後に次のコードを実行すると可視化できます。
 
 ```{r example_article_references_cont, eval = TRUE, message = FALSE}
 library(dplyr)

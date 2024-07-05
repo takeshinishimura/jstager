@@ -190,12 +190,6 @@ target="_blank">Zotero Connector</a>
 
 ``` r
 d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
-#> Timeout or error occurred, skipping to next step.
-#> Timeout or error occurred, skipping to next step.
-#> Timeout or error occurred, skipping to next step.
-```
-
-``` r
 d5
 #> # A tibble: 105 × 4
 #>    citing_doi               cited_doi                article_link          depth
@@ -218,7 +212,7 @@ d5
 <a href="https://takeshinishimura.github.io/jstager/references.html"
 target="_blank">引用文献リストの可視化</a>
 
-リスト取得後に次のコードを実行するとこのような可視化ができます。
+リスト取得後に次のコードを実行すると可視化できます。
 
 ``` r
 library(dplyr)
