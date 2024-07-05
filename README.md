@@ -189,13 +189,15 @@ target="_blank">Zotero Connector</a>
 ### 論文の引用文献リストの取得
 
 ``` r
-d5 <- jstage_references("10.1241/johokanri.49.63", depth = 2)
-#> 階層 1 の 1 件中 1 件目を処理中...階層 2 の 5 件中 1 件目を処理中...階層 2 の 5 件中 2 件目を処理中...階層 2 の 5 件中 3 件目を処理中...階層 2 の 5 件中 4 件目を処理中...階層 2 の 5 件中 5 件目を処理中...
+d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
+#> Timeout or error occurred, skipping to next step.
+#> Timeout or error occurred, skipping to next step.
+#> Timeout or error occurred, skipping to next step.
 ```
 
 ``` r
 d5
-#> # A tibble: 41 × 4
+#> # A tibble: 105 × 4
 #>    citing_doi               cited_doi                article_link          depth
 #>    <chr>                    <chr>                    <chr>                 <dbl>
 #>  1 10.1241/johokanri.49.63  10.1241/johokanri.42.682 http://www.jstage.js…     1
@@ -208,8 +210,15 @@ d5
 #>  8 10.1241/johokanri.42.682 10.18919/jkg.49.6_295    https://www.jstage.j…     2
 #>  9 10.1241/johokanri.42.682 10.11291/jpla1956.44.266 http://www.jstage.js…     2
 #> 10 10.1241/johokanri.42.682 10.1241/johokanri.41.445 http://www.jstage.js…     2
-#> # ℹ 31 more rows
+#> # ℹ 95 more rows
 ```
+
+#### 引用文献リストの可視化
+
+<a href="https://takeshinishimura.github.io/jstager/references.html"
+target="_blank">引用文献リストの可視化</a>
+
+リスト取得後に次のコードを実行するとこのような可視化ができます。
 
 ``` r
 library(dplyr)
@@ -249,12 +258,7 @@ v <- visNetwork(nodes, edges, width = "100%") |>
     }
   }") |>
   visLayout(randomSeed = 100)
-
-saveWidget(v, "./docs/references.html")
 ```
-
-<a href="https://takeshinishimura.github.io/jstager/references.html"
-target="_blank">引用文献リストのサンプル</a>
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"
 target="_blank">J-STAGE</a>

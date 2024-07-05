@@ -320,11 +320,13 @@
 <h3 id="論文の引用文献リストの取得">論文の引用文献リストの取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E3%81%AE%E5%BC%95%E7%94%A8%E6%96%87%E7%8C%AE%E3%83%AA%E3%82%B9%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97"></a>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_references.html">jstage_references</a></span><span class="op">(</span><span class="st">"10.1241/johokanri.49.63"</span>, depth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 階層 1 の 1 件中 1 件目を処理中...階層 2 の 5 件中 1 件目を処理中...階層 2 の 5 件中 2 件目を処理中...階層 2 の 5 件中 3 件目を処理中...階層 2 の 5 件中 4 件目を処理中...階層 2 の 5 件中 5 件目を処理中...</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">d5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_references.html">jstage_references</a></span><span class="op">(</span><span class="st">"10.1241/johokanri.49.63"</span>, depth <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Timeout or error occurred, skipping to next step.</span></span>
+<span><span class="co">#&gt; Timeout or error occurred, skipping to next step.</span></span>
+<span><span class="co">#&gt; Timeout or error occurred, skipping to next step.</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d5</span></span>
-<span><span class="co">#&gt; # A tibble: 41 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 105 × 4</span></span>
 <span><span class="co">#&gt;    citing_doi               cited_doi                article_link          depth</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;                    &lt;chr&gt;                    &lt;chr&gt;                 &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt;  1 10.1241/johokanri.49.63  10.1241/johokanri.42.682 http://www.jstage.js…     1</span></span>
@@ -337,7 +339,12 @@
 <span><span class="co">#&gt;  8 10.1241/johokanri.42.682 10.18919/jkg.49.6_295    https://www.jstage.j…     2</span></span>
 <span><span class="co">#&gt;  9 10.1241/johokanri.42.682 10.11291/jpla1956.44.266 http://www.jstage.js…     2</span></span>
 <span><span class="co">#&gt; 10 10.1241/johokanri.42.682 10.1241/johokanri.41.445 http://www.jstage.js…     2</span></span>
-<span><span class="co">#&gt; # ℹ 31 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 95 more rows</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="引用文献リストの可視化">引用文献リストの可視化<a class="anchor" aria-label="anchor" href="#%E5%BC%95%E7%94%A8%E6%96%87%E7%8C%AE%E3%83%AA%E3%82%B9%E3%83%88%E3%81%AE%E5%8F%AF%E8%A6%96%E5%8C%96"></a>
+</h4>
+<p><a href="https://takeshinishimura.github.io/jstager/references.html" target="_blank" class="external-link">引用文献リストの可視化</a></p>
+<p>リスト取得後に次のコードを実行するとこのような可視化ができます。</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://datastorm-open.github.io/visNetwork/" class="external-link">visNetwork</a></span><span class="op">)</span></span>
@@ -375,11 +382,9 @@
 <span><span class="st">      window.open(url, '_blank');</span></span>
 <span><span class="st">    }</span></span>
 <span><span class="st">  }"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/visNetwork/man/visLayout.html" class="external-link">visLayout</a></span><span class="op">(</span>randomSeed <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">saveWidget</a></span><span class="op">(</span><span class="va">v</span>, <span class="st">"./docs/references.html"</span><span class="op">)</span></span></code></pre></div>
-<p><a href="https://takeshinishimura.github.io/jstager/references.html" target="_blank" class="external-link">引用文献リストのサンプル</a></p>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/visNetwork/man/visLayout.html" class="external-link">visLayout</a></span><span class="op">(</span>randomSeed <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <p>Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja" target="_blank" class="external-link">J-STAGE</a></p>
+</div>
 </div>
 </div>
 </div>

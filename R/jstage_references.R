@@ -7,10 +7,13 @@
 #'   The URL or DOI of the J-STAGE article.
 #' @param depth
 #'   Integer. The depth to which references should be scraped. Default is 1.
+#' @param quiet
+#'   logical. Suppress information regarding the progress.
 #' @return A data frame with the DOI of each reference.
 #' @export
 jstage_references <- function(url,
-                              depth = 1) {
+                              depth = 1,
+                              quiet = TRUE) {
 
   current_depth <- 0
 
@@ -30,10 +33,12 @@ jstage_references <- function(url,
 
     for (i in urls_to_process) {
 
-      cat(sprintf("\u968e\u5c64 %d \u306e %d \u4ef6\u4e2d %d \u4ef6\u76ee\u3092\u51e6\u7406\u4e2d...\r",
-                  current_depth, length(urls_to_process), match(i, urls_to_process)))
+      if (!quiet) {
+        cat(sprintf("\u968e\u5c64 %d \u306e %d \u4ef6\u4e2d %d \u4ef6\u76ee\u3092\u51e6\u7406\u4e2d...\r",
+                    current_depth, length(urls_to_process), match(i, urls_to_process)))
+      }
 
-      session <- setup_chromote_session(i)
+      session <- setup_chromote_session(i, quiet = quiet)
       if (is.null(session)) {
         next
       }
@@ -104,7 +109,7 @@ get_urls_from_jstage <- function(page_content) {
 
 setup_chromote_session <- function(url, timeout = 10000, quiet = TRUE) {
   tryCatch({
-    if (!quiet) cat("Starting Chromote session...\n")
+    if (!quiet) cat("\nStarting Chromote session...\n")
 
     b <- chromote::ChromoteSession$new()
 
@@ -129,7 +134,7 @@ setup_chromote_session <- function(url, timeout = 10000, quiet = TRUE) {
     )
     return(b)
   }, error = function(e) {
-    if (!is.null(b) && inherits(b, "ChromoteSession")) {
+    if (exists("b") && !is.null(b) && inherits(b, "ChromoteSession")) {
       b$close()
     }
     message("Timeout or error occurred, skipping to next step.")
