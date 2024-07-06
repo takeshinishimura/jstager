@@ -127,8 +127,6 @@ d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
 d5
 ```
 
-#### 引用文献リストの可視化
-
 [引用文献リストの可視化](https://takeshinishimura.github.io/jstager/references.html){target="_blank"}
 
 リスト取得後に次のコードを実行すると可視化できます。

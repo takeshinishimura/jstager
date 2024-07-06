@@ -207,8 +207,6 @@ d5
 #> # ℹ 95 more rows
 ```
 
-#### 引用文献リストの可視化
-
 <a href="https://takeshinishimura.github.io/jstager/references.html"
 target="_blank">引用文献リストの可視化</a>
 
