@@ -1,7 +1,7 @@
 Package: jstager
 Type: Package
 Title: Retrieve Information Published on J-STAGE
-Version: 0.0.5
+Version: 0.0.5.9000
 Authors@R: 
     person(given = "Takeshi",
            family = "Nishimura",
@@ -29,5 +29,5 @@ RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-URL: https://github.com/takeshinishimura/jstager
+URL: https://github.com/takeshinishimura/jstager, https://takeshinishimura.github.io/jstager/
 BugReports: https://github.com/takeshinishimura/jstager/issues
