@@ -4,14 +4,19 @@
 \alias{jstage_references}
 \title{Scrape J-STAGE References}
 \usage{
-jstage_references(url, depth = 1, quiet = TRUE)
+jstage_references(url, depth = 1, wait = 1, quiet = TRUE)
 }
 \arguments{
 \item{url}{The URL or DOI of the J-STAGE article web page.}
 
-\item{depth}{Integer. The depth to which references should be scraped. Default is 1.}
+\item{depth}{Integer. The depth to which references should be scraped. For example, a
+depth of 2 means the references of the specified paper and recursively the
+references of those references are scraped, and so on.}
 
-\item{quiet}{logical. Suppress information regarding the progress.}
+\item{wait}{Numeric. The number of seconds to wait between each request to reduce
+server load.}
+
+\item{quiet}{Logical. Set to FALSE to display information about the progress.}
 }
 \value{
 A data frame with the DOI of each reference.

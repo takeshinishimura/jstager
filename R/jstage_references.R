@@ -6,13 +6,19 @@
 #' @param url
 #'   The URL or DOI of the J-STAGE article web page.
 #' @param depth
-#'   Integer. The depth to which references should be scraped. Default is 1.
+#'   Integer. The depth to which references should be scraped. For example, a
+#'   depth of 2 means the references of the specified paper and recursively the
+#'   references of those references are scraped, and so on.
+#' @param wait
+#'   Numeric. The number of seconds to wait between each request to reduce
+#'   server load.
 #' @param quiet
-#'   logical. Suppress information regarding the progress.
+#'   Logical. Set to FALSE to display information about the progress.
 #' @return A data frame with the DOI of each reference.
 #' @export
 jstage_references <- function(url,
                               depth = 1,
+                              wait = 1,
                               quiet = TRUE) {
 
   current_depth <- 0
@@ -56,7 +62,7 @@ jstage_references <- function(url,
       urls <- get_urls_from_jstage(page_content)
 
       if (!is.na(urls$url[1])) {
-        doi_list <- lapply(urls$url, get_doi_from_url)
+        doi_list <- lapply(urls$url, get_doi_from_url, wait = wait)
         dois <- do.call(rbind, doi_list)
       } else {
         next
@@ -79,6 +85,12 @@ jstage_references <- function(url,
     urls_to_process <- next_urls
 
   }
+
+  result <- result |>
+    dplyr::group_by(.data$citing_doi, .data$cited_doi, .data$article_link) |>
+    dplyr::filter(.data$depth == min(.data$depth)) |>
+    dplyr::ungroup() |>
+    dplyr::distinct()
 
   return(result)
 
@@ -152,7 +164,7 @@ get_page_content <- function(session) {
   })
 }
 
-get_doi_from_url <- function(jalc_url) {
+get_doi_from_url <- function(jalc_url, wait) {
 
   page <- rvest::read_html(jalc_url)
 
@@ -173,6 +185,7 @@ get_doi_from_url <- function(jalc_url) {
     article_links <- NA
   }
 
+  Sys.sleep(wait)
   return(data.frame(cited_doi = decoded_dois, article_link = article_links))
 
 }
