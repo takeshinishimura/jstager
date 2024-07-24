@@ -13,7 +13,7 @@
 #'   Numeric. The number of seconds to wait between each request to reduce
 #'   server load.
 #' @param quiet
-#'   Logical. Set to FALSE to display information about the progress.
+#'   Logical. Set to `FALSE` to display information about the progress.
 #' @return A data frame with the DOI of each reference.
 #' @export
 jstage_references <- function(url,
