@@ -16,7 +16,7 @@ references of those references are scraped, and so on.}
 \item{wait}{Numeric. The number of seconds to wait between each request to reduce
 server load.}
 
-\item{quiet}{Logical. Set to FALSE to display information about the progress.}
+\item{quiet}{Logical. Set to \code{FALSE} to display information about the progress.}
 }
 \value{
 A data frame with the DOI of each reference.
