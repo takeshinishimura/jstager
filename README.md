@@ -22,7 +22,7 @@ WebAPIを利用して，J-STAGEに公開されている情報を取得するた�
   target="_blank">J-STAGE WebAPI 利用規約</a>
 - <a
   href="https://www.jstage.jst.go.jp/static/pages/JstageServices/TAB3/-char/ja"
-  target="_blank">J-STAGE WebAPIについて</a>
+  target="_blank">J-STAGE WebAPI について</a>
 - <a href="https://www.jstage.jst.go.jp/static/files/ja/manual_api.pdf"
   target="_blank">J-STAGE WebAPI ご利用マニュアル</a>
 
@@ -189,25 +189,20 @@ target="_blank">Zotero Connector</a>
 ### 論文の引用文献リストの取得
 
 ``` r
-d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
+d5 <- jstage_references("10.1241/johokanri.49.63", depth = 1)
 d5
-#> # A tibble: 105 × 4
-#>    citing_doi               cited_doi                article_link          depth
-#>    <chr>                    <chr>                    <chr>                 <dbl>
-#>  1 10.1241/johokanri.49.63  10.1241/johokanri.42.682 http://www.jstage.js…     1
-#>  2 10.1241/johokanri.49.63  10.1241/johokanri.46.536 http://www.jstage.js…     1
-#>  3 10.1241/johokanri.49.63  10.1241/johokanri.48.149 http://www.jstage.js…     1
-#>  4 10.1241/johokanri.49.63  10.1241/johokanri.49.69  http://www.jstage.js…     1
-#>  5 10.1241/johokanri.49.63  10.18919/jkg.56.4_188    https://www.jstage.j…     1
-#>  6 10.1241/johokanri.42.682 10.1241/johokanri.41.343 http://www.jstage.js…     2
-#>  7 10.1241/johokanri.42.682 10.11291/jpla1956.44.137 http://www.jstage.js…     2
-#>  8 10.1241/johokanri.42.682 10.18919/jkg.49.6_295    https://www.jstage.j…     2
-#>  9 10.1241/johokanri.42.682 10.11291/jpla1956.44.266 http://www.jstage.js…     2
-#> 10 10.1241/johokanri.42.682 10.1241/johokanri.41.445 http://www.jstage.js…     2
-#> # ℹ 95 more rows
+#> # A tibble: 5 × 4
+#>   citing_doi              cited_doi                article_link            depth
+#>   <chr>                   <chr>                    <chr>                   <dbl>
+#> 1 10.1241/johokanri.49.63 10.1241/johokanri.42.682 http://www.jstage.jst.…     1
+#> 2 10.1241/johokanri.49.63 10.1241/johokanri.46.536 http://www.jstage.jst.…     1
+#> 3 10.1241/johokanri.49.63 10.1241/johokanri.48.149 http://www.jstage.jst.…     1
+#> 4 10.1241/johokanri.49.63 10.1241/johokanri.49.69  http://www.jstage.jst.…     1
+#> 5 10.1241/johokanri.49.63 10.18919/jkg.56.4_188    https://www.jstage.jst…     1
 ```
 
-<a href="https://takeshinishimura.github.io/jstager/references.html"
+<a
+href="https://connect.posit.cloud/takeshinishimura/content/0190eedf-0cff-2ce8-c1eb-689f1cc0d2c0"
 target="_blank">引用文献リストの可視化</a>
 
 リスト取得後に次のコードを実行すると可視化できます。
@@ -215,7 +210,6 @@ target="_blank">引用文献リストの可視化</a>
 ``` r
 library(dplyr)
 library(visNetwork)
-library(htmlwidgets)
 
 edges <- d5 |>
   mutate(cited_doi = ifelse(is.na(cited_doi), 
@@ -237,7 +231,7 @@ nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
   )
 nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
 
-v <- visNetwork(nodes, edges, width = "100%") |>
+visNetwork(nodes, edges, width = "100%") |>
   visNodes(shape = "box", shadow = TRUE) |>
   visEdges(arrows = 'to', shadow = TRUE) |>
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) |>

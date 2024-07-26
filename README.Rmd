@@ -29,7 +29,7 @@ J-STAGE WebAPIを利用して，J-STAGEに公開されている情報を取得�
 このパッケージはJ-STAGE WebAPIの利用規約等をご確認の上ご利用ください。
 
 - [J-STAGE WebAPI 利用規約](https://www.jstage.jst.go.jp/static/pages/WebAPI/-char/ja){target="_blank"}
-- [J-STAGE WebAPIについて](https://www.jstage.jst.go.jp/static/pages/JstageServices/TAB3/-char/ja){target="_blank"}
+- [J-STAGE WebAPI について](https://www.jstage.jst.go.jp/static/pages/JstageServices/TAB3/-char/ja){target="_blank"}
 - [J-STAGE WebAPI ご利用マニュアル](https://www.jstage.jst.go.jp/static/files/ja/manual_api.pdf){target="_blank"}
 
 
@@ -122,19 +122,18 @@ d4 <- jstage_metadata(d2$entry$DOI[8], pdf_path = ".", bibtex_path = ".")
 
 ### 論文の引用文献リストの取得
 
-```{r example_article_references, message = FALSE}
-d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
+```{r example_article_references, eval = TRUE}
+d5 <- jstage_references("10.1241/johokanri.49.63", depth = 1)
 d5
 ```
 
-[引用文献リストの可視化](https://takeshinishimura.github.io/jstager/references.html){target="_blank"}
+[引用文献リストの可視化](https://connect.posit.cloud/takeshinishimura/content/0190eedf-0cff-2ce8-c1eb-689f1cc0d2c0){target="_blank"}
 
 リスト取得後に次のコードを実行すると可視化できます。
 
-```{r example_article_references_cont, eval = TRUE, message = FALSE}
+```{r example_article_references_cont, eval = FALSE}
 library(dplyr)
 library(visNetwork)
-library(htmlwidgets)
 
 edges <- d5 |>
   mutate(cited_doi = ifelse(is.na(cited_doi), 
@@ -156,7 +155,7 @@ nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
   )
 nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
 
-v <- visNetwork(nodes, edges, width = "100%") |>
+visNetwork(nodes, edges, width = "100%") |>
   visNodes(shape = "box", shadow = TRUE) |>
   visEdges(arrows = 'to', shadow = TRUE) |>
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) |>
@@ -169,9 +168,6 @@ v <- visNetwork(nodes, edges, width = "100%") |>
     }
   }") |>
   visLayout(randomSeed = 100)
-```
-```{r example_article_references_save, eval = TRUE, echo = FALSE}
-saveWidget(v, "./docs/references.html")
 ```
 
 Powered by [J-STAGE](https://www.jstage.jst.go.jp/browse/-char/ja){target="_blank"}
