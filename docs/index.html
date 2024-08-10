@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jstager</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -303,14 +303,14 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_references.html">jstage_references</a></span><span class="op">(</span><span class="st">"10.1241/johokanri.49.63"</span>, depth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">d5</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 4</span></span>
-<span><span class="co">#&gt;   citing_doi              cited_doi                article_link            depth</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;                    &lt;chr&gt;                   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 10.1241/johokanri.49.63 10.1241/johokanri.42.682 http://www.jstage.jst.…     1</span></span>
-<span><span class="co">#&gt; 2 10.1241/johokanri.49.63 10.1241/johokanri.46.536 http://www.jstage.jst.…     1</span></span>
-<span><span class="co">#&gt; 3 10.1241/johokanri.49.63 10.1241/johokanri.48.149 http://www.jstage.jst.…     1</span></span>
-<span><span class="co">#&gt; 4 10.1241/johokanri.49.63 10.1241/johokanri.49.69  http://www.jstage.jst.…     1</span></span>
-<span><span class="co">#&gt; 5 10.1241/johokanri.49.63 10.18919/jkg.56.4_188    https://www.jstage.jst…     1</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 5 × 5</span></span>
+<span><span class="co">#&gt;   citing_doi              citing_article_link cited_doi cited_article_link depth</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;               &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1</span></span>
+<span><span class="co">#&gt; 2 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1</span></span>
+<span><span class="co">#&gt; 3 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1</span></span>
+<span><span class="co">#&gt; 4 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1</span></span>
+<span><span class="co">#&gt; 5 10.1241/johokanri.49.63 https://www.jstage… 10.18919… https://www.jstag…     1</span></span></code></pre></div>
 <p><a href="https://connect.posit.cloud/takeshinishimura/content/0190eedf-0cff-2ce8-c1eb-689f1cc0d2c0" target="_blank" class="external-link">引用文献リストの可視化</a></p>
 <p>リスト取得後に次のコードを実行すると可視化できます。</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -326,13 +326,13 @@
 <span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">edges</span><span class="op">$</span><span class="va">from</span>, <span class="va">edges</span><span class="op">$</span><span class="va">to</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
 <span>    <span class="va">d5</span> <span class="op">|&gt;</span></span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cited_doi</span>, <span class="va">article_link</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cited_doi</span>, <span class="va">cited_article_link</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id"</span> <span class="op">=</span> <span class="st">"cited_doi"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">article_link</span><span class="op">)</span>, <span class="st">"J-Stage"</span>, <span class="st">"Outside J-Stage"</span><span class="op">)</span>,</span>
+<span>    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">cited_article_link</span><span class="op">)</span>, <span class="st">"J-Stage"</span>, <span class="st">"Outside J-Stage"</span><span class="op">)</span>,</span>
 <span>    title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://doi.org/"</span>, <span class="va">id</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">nodes</span><span class="op">$</span><span class="va">group</span><span class="op">[</span><span class="va">nodes</span><span class="op">$</span><span class="va">id</span> <span class="op">==</span> <span class="va">d5</span><span class="op">$</span><span class="va">citing_doi</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"J-Stage"</span></span>
@@ -350,6 +350,19 @@
 <span><span class="st">    }</span></span>
 <span><span class="st">  }"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/visNetwork/man/visLayout.html" class="external-link">visLayout</a></span><span class="op">(</span>randomSeed <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="論文の被引用文献リストの取得">論文の被引用文献リストの取得<a class="anchor" aria-label="anchor" href="#%E8%AB%96%E6%96%87%E3%81%AE%E8%A2%AB%E5%BC%95%E7%94%A8%E6%96%87%E7%8C%AE%E3%83%AA%E3%82%B9%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">d6</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jstage_references.html">jstage_references</a></span><span class="op">(</span><span class="st">"10.1241/johokanri.49.63"</span>, citedby <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 5</span></span>
+<span><span class="co">#&gt;   citing_doi              citing_article_link cited_doi cited_article_link depth</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;               &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 10.1241/johokanri.50.20 http://www.jstage.… 10.1241/… https://www.jstag…     1</span></span>
+<span><span class="co">#&gt; 2 10.1241/johokanri.51.1… http://www.jstage.… 10.1241/… https://www.jstag…     1</span></span>
+<span><span class="co">#&gt; 3 10.1241/johokanri.51.2… http://www.jstage.… 10.1241/… https://www.jstag…     1</span></span>
+<span><span class="co">#&gt; 4 10.5939/sjws.230009     https://www.jstage… 10.1241/… https://www.jstag…     1</span></span></code></pre></div>
 <p>Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja" target="_blank" class="external-link">J-STAGE</a></p>
 </div>
 </div>

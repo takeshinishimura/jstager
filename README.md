@@ -191,14 +191,14 @@ target="_blank">Zotero Connector</a>
 ``` r
 d5 <- jstage_references("10.1241/johokanri.49.63", depth = 1)
 d5
-#> # A tibble: 5 × 4
-#>   citing_doi              cited_doi                article_link            depth
-#>   <chr>                   <chr>                    <chr>                   <dbl>
-#> 1 10.1241/johokanri.49.63 10.1241/johokanri.42.682 http://www.jstage.jst.…     1
-#> 2 10.1241/johokanri.49.63 10.1241/johokanri.46.536 http://www.jstage.jst.…     1
-#> 3 10.1241/johokanri.49.63 10.1241/johokanri.48.149 http://www.jstage.jst.…     1
-#> 4 10.1241/johokanri.49.63 10.1241/johokanri.49.69  http://www.jstage.jst.…     1
-#> 5 10.1241/johokanri.49.63 10.18919/jkg.56.4_188    https://www.jstage.jst…     1
+#> # A tibble: 5 × 5
+#>   citing_doi              citing_article_link cited_doi cited_article_link depth
+#>   <chr>                   <chr>               <chr>     <chr>              <dbl>
+#> 1 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1
+#> 2 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1
+#> 3 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1
+#> 4 10.1241/johokanri.49.63 https://www.jstage… 10.1241/… http://www.jstage…     1
+#> 5 10.1241/johokanri.49.63 https://www.jstage… 10.18919… https://www.jstag…     1
 ```
 
 <a
@@ -220,13 +220,13 @@ edges <- d5 |>
 nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
   left_join(
     d5 |>
-      select(cited_doi, article_link) |>
+      select(cited_doi, cited_article_link) |>
       na.omit() |>
       distinct(),
     by = c("id" = "cited_doi")
   ) |>
   mutate(
-    group = ifelse(!is.na(article_link), "J-Stage", "Outside J-Stage"),
+    group = ifelse(!is.na(cited_article_link), "J-Stage", "Outside J-Stage"),
     title = paste0("https://doi.org/", id)
   )
 nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
@@ -244,6 +244,19 @@ visNetwork(nodes, edges, width = "100%") |>
     }
   }") |>
   visLayout(randomSeed = 100)
+```
+
+### 論文の被引用文献リストの取得
+
+``` r
+(d6 <- jstage_references("10.1241/johokanri.49.63", citedby = TRUE))
+#> # A tibble: 4 × 5
+#>   citing_doi              citing_article_link cited_doi cited_article_link depth
+#>   <chr>                   <chr>               <chr>     <chr>              <dbl>
+#> 1 10.1241/johokanri.50.20 http://www.jstage.… 10.1241/… https://www.jstag…     1
+#> 2 10.1241/johokanri.51.1… http://www.jstage.… 10.1241/… https://www.jstag…     1
+#> 3 10.1241/johokanri.51.2… http://www.jstage.… 10.1241/… https://www.jstag…     1
+#> 4 10.5939/sjws.230009     https://www.jstage… 10.1241/… https://www.jstag…     1
 ```
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"

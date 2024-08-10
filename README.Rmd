@@ -144,13 +144,13 @@ edges <- d5 |>
 nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
   left_join(
     d5 |>
-      select(cited_doi, article_link) |>
+      select(cited_doi, cited_article_link) |>
       na.omit() |>
       distinct(),
     by = c("id" = "cited_doi")
   ) |>
   mutate(
-    group = ifelse(!is.na(article_link), "J-Stage", "Outside J-Stage"),
+    group = ifelse(!is.na(cited_article_link), "J-Stage", "Outside J-Stage"),
     title = paste0("https://doi.org/", id)
   )
 nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
@@ -168,6 +168,12 @@ visNetwork(nodes, edges, width = "100%") |>
     }
   }") |>
   visLayout(randomSeed = 100)
+```
+
+### 論文の被引用文献リストの取得
+
+```{r example_article_references_citedby, eval = TRUE}
+(d6 <- jstage_references("10.1241/johokanri.49.63", citedby = TRUE))
 ```
 
 Powered by [J-STAGE](https://www.jstage.jst.go.jp/browse/-char/ja){target="_blank"}
