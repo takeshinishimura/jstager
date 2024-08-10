@@ -1,4 +1,6 @@
-# jstager (development version)
+# jstager 0.0.6
+
+* Added an option to scrape the list of cited-by references from a specified article web page.
 
 # jstager 0.0.5
 
